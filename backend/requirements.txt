@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+numpy
+requests
+python-dotenv
+sentinelhub
+shapely
+pytest

@@ -1,0 +1,176 @@
+{
+  "incident_id": "INC-2026-ARABIAN-001",
+  "name": "Arabian Sea Offshore S1 Anomaly Incident",
+  "detection_time": "2026-09-02T06:12:00Z",
+  "date_range": "2026-08-28 to 2026-09-02",
+  "status": "active",
+  "study_region": {
+    "name": "Offshore Arabian Sea Shipping Corridor",
+    "bbox": [68.5, 8.0, 71.5, 11.0]
+  },
+  "spill": {
+    "possible_slick_detected": true,
+    "confidence": 84.5,
+    "estimated_area_km2": 46.0,
+    "spill_pixel_count": 920,
+    "mean_local_darkness_db": 7.4,
+    "max_local_darkness_db": 10.2,
+    "likely_artifact": false,
+    "artifact_warning": null,
+    "spill_center": {
+      "lat": 9.50,
+      "lon": 70.00
+    },
+    "spill_bounding_box": {
+      "min_lat": 9.35,
+      "min_lon": 69.80,
+      "max_lat": 9.65,
+      "max_lon": 70.20
+    },
+    "candidate_regions": [
+      {
+        "rank": 1,
+        "pixel_count": 920,
+        "pixel_ratio": 0.023,
+        "estimated_area_km2": 46.0,
+        "mean_local_darkness_db": 7.4,
+        "max_local_darkness_db": 10.2,
+        "likely_artifact": false,
+        "center": { "lat": 9.50, "lon": 70.00 },
+        "bounding_box": {
+          "min_lat": 9.35,
+          "min_lon": 69.80,
+          "max_lat": 9.65,
+          "max_lon": 70.20
+        }
+      }
+    ]
+  },
+  "environment": {
+    "ocean_current": {
+      "speed_kmh": 0.85,
+      "direction_deg": 135.0,
+      "description": "SE flow at 0.85 km/h"
+    },
+    "wind": {
+      "speed_kmh": 18.5,
+      "direction_deg": 315.0,
+      "description": "NW wind (blowing towards SE) at 18.5 km/h"
+    },
+    "drift_vector": {
+      "speed_kmh": 1.405,
+      "direction_deg": 135.0
+    }
+  },
+  "drift": {
+    "origin": { "lat": 9.50, "lon": 70.00 },
+    "forecast_hours": 48,
+    "step_hours": 3,
+    "backward_trajectory": [
+      { "step_hours": 0, "timestamp": "2026-09-02T06:00:00Z", "lat": 9.50, "lon": 70.00 },
+      { "step_hours": -3, "timestamp": "2026-09-02T03:00:00Z", "lat": 9.465, "lon": 69.965 },
+      { "step_hours": -6, "timestamp": "2026-09-02T00:00:00Z", "lat": 9.430, "lon": 69.930 },
+      { "step_hours": -9, "timestamp": "2026-09-01T21:00:00Z", "lat": 9.395, "lon": 69.895 },
+      { "step_hours": -12, "timestamp": "2026-09-01T18:00:00Z", "lat": 9.360, "lon": 69.860 },
+      { "step_hours": -18, "timestamp": "2026-09-01T12:00:00Z", "lat": 9.290, "lon": 69.790 },
+      { "step_hours": -24, "timestamp": "2026-09-01T06:00:00Z", "lat": 9.220, "lon": 69.720 },
+      { "step_hours": -36, "timestamp": "2026-08-31T18:00:00Z", "lat": 9.080, "lon": 69.580 },
+      { "step_hours": -48, "timestamp": "2026-08-31T06:00:00Z", "lat": 8.940, "lon": 69.440 }
+    ],
+    "forward_trajectory": [
+      { "step_hours": 0, "timestamp": "2026-09-02T06:00:00Z", "lat": 9.50, "lon": 70.00 },
+      { "step_hours": 3, "timestamp": "2026-09-02T09:00:00Z", "lat": 9.535, "lon": 70.035 },
+      { "step_hours": 6, "timestamp": "2026-09-02T12:00:00Z", "lat": 9.570, "lon": 70.070 },
+      { "step_hours": 12, "timestamp": "2026-09-02T18:00:00Z", "lat": 9.640, "lon": 70.140 },
+      { "step_hours": 24, "timestamp": "2026-09-03T06:00:00Z", "lat": 9.780, "lon": 70.280 },
+      { "step_hours": 48, "timestamp": "2026-09-04T06:00:00Z", "lat": 10.060, "lon": 70.560 }
+    ]
+  },
+  "vessels": [
+    {
+      "shipName": "MV ARABIAN STAR",
+      "mmsi": "419001234",
+      "vesselType": "Oil Tanker",
+      "flag": "IN",
+      "lat": 9.25,
+      "lon": 69.75,
+      "speed": 11.2,
+      "course": 135.0,
+      "exitTimestamp": "2026-09-01T14:30:00Z",
+      "timestamp": "2026-09-01T14:30:00Z",
+      "behaviour": {
+        "speed_drop_observed": true,
+        "unusual_dwell": true,
+        "notes": "Temporary speed reduction from 14.8 to 8.1 kts while crossing the origin corridor."
+      }
+    },
+    {
+      "shipName": "MT SEA EMPRESS",
+      "mmsi": "352002891",
+      "vesselType": "Chemical Tanker",
+      "flag": "PA",
+      "lat": 9.38,
+      "lon": 69.88,
+      "speed": 14.5,
+      "course": 140.0,
+      "exitTimestamp": "2026-09-01T18:15:00Z",
+      "timestamp": "2026-09-01T18:15:00Z",
+      "behaviour": {
+        "speed_drop_observed": false,
+        "unusual_dwell": false,
+        "notes": "Maintained steady transit speed through the area."
+      }
+    },
+    {
+      "shipName": "MV OCEAN PHOENIX",
+      "mmsi": "636018442",
+      "vesselType": "Container Ship",
+      "flag": "LR",
+      "lat": 9.48,
+      "lon": 70.12,
+      "speed": 18.2,
+      "course": 320.0,
+      "exitTimestamp": "2026-09-02T02:00:00Z",
+      "timestamp": "2026-09-02T02:00:00Z",
+      "behaviour": {
+        "speed_drop_observed": false,
+        "unusual_dwell": false,
+        "notes": "Standard container transit eastbound."
+      }
+    },
+    {
+      "shipName": "INS TARKASH",
+      "mmsi": "419000555",
+      "vesselType": "Naval Vessel",
+      "flag": "IN",
+      "lat": 9.85,
+      "lon": 69.30,
+      "speed": 20.0,
+      "course": 90.0,
+      "exitTimestamp": "2026-09-02T05:00:00Z",
+      "timestamp": "2026-09-02T05:00:00Z",
+      "behaviour": {
+        "speed_drop_observed": false,
+        "unusual_dwell": false,
+        "notes": "Patrol route."
+      }
+    },
+    {
+      "shipName": "FV MAHALAKSHMI",
+      "mmsi": "419982104",
+      "vesselType": "Fishing Vessel",
+      "flag": "IN",
+      "lat": 8.80,
+      "lon": 70.90,
+      "speed": 4.2,
+      "course": 210.0,
+      "exitTimestamp": "2026-09-02T01:00:00Z",
+      "timestamp": "2026-09-02T01:00:00Z",
+      "behaviour": {
+        "speed_drop_observed": false,
+        "unusual_dwell": false,
+        "notes": "Local fishing activity."
+      }
+    }
+  ]
+}
