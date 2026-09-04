@@ -398,9 +398,9 @@ function MapViewContent() {
             title="Click and drag to move panel anywhere on screen"
           >
             <div className="flex items-center gap-2">
-              <span className="text-slate-500 text-xs font-mono">⋮⋮</span>
+              <span className="text-[var(--text-muted)] text-xs font-mono">⋮⋮</span>
               <Satellite className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs font-bold text-slate-100 uppercase tracking-wider font-mono">
+              <span className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider font-mono">
                 LAYERS & DRIFT CONTROLS
               </span>
             </div>
@@ -869,9 +869,9 @@ function MapViewContent() {
 
       {/* RIGHT VESSEL DOSSIER DRAWER */}
       {selectedVessel && (
-        <div className="absolute top-0 right-0 z-[1000] h-full w-full sm:w-96 md:w-[420px] glass-panel border-l border-slate-800 shadow-2xl flex flex-col justify-between overflow-hidden transition-all duration-300">
+        <div className="absolute top-0 right-0 z-[1000] h-full w-full sm:w-96 md:w-[420px] glass-panel border-l border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] shadow-2xl flex flex-col justify-between overflow-hidden transition-all duration-300">
           {/* Header */}
-          <div className="p-4 border-b border-slate-800/80 bg-[#090d16]/90 flex items-center justify-between shrink-0">
+          <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-card-elevated)] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 font-bold">
                 VESSEL DOSSIER
@@ -882,7 +882,7 @@ function MapViewContent() {
             </div>
             <button
               onClick={() => setSelectedVessel(null)}
-              className="text-slate-400 hover:text-slate-100 text-xs font-mono p-1 rounded hover:bg-slate-800 flex items-center gap-1"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-mono p-1 rounded hover:bg-[var(--bg-card)] flex items-center gap-1"
             >
               <X className="w-3.5 h-3.5" /> CLOSE
             </button>
@@ -890,11 +890,11 @@ function MapViewContent() {
 
           {/* Dossier Content Scrollable Area */}
           <div className="flex-1 overflow-y-auto p-5 space-y-5">
-            <div className="flex items-start justify-between bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+            <div className="flex items-start justify-between bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)]">
               <div>
-                <span className="text-[10px] font-mono text-slate-400 uppercase">Target Identity</span>
-                <h3 className="text-lg font-extrabold text-slate-100">{selectedVessel.shipName}</h3>
-                <p className="text-xs text-slate-400 font-mono mt-0.5">
+                <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Target Identity</span>
+                <h3 className="text-lg font-extrabold text-[var(--text-primary)]">{selectedVessel.shipName}</h3>
+                <p className="text-xs text-[var(--text-secondary)] font-mono mt-0.5">
                   MMSI: {selectedVessel.mmsi} &bull; Flag: {selectedVessel.flag || "IN"}
                 </p>
                 <p className="text-xs text-cyan-400 font-mono mt-0.5">
@@ -902,7 +902,7 @@ function MapViewContent() {
                 </p>
               </div>
               <div className="text-right">
-                <span className="text-[10px] font-mono text-slate-400 uppercase">Rank</span>
+                <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Rank</span>
                 <div className="text-2xl font-extrabold text-rose-400 font-mono">
                   #{selectedVessel.rank || 1}
                 </div>
@@ -910,8 +910,8 @@ function MapViewContent() {
             </div>
 
             {/* Commercial Voyage Route Telemetry Card */}
-            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-3 text-xs font-mono">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-3 text-xs font-mono">
+              <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
                 <span className="text-cyan-400 font-bold uppercase text-[10px] tracking-wider flex items-center gap-1.5">
                   <Navigation className="w-3.5 h-3.5 text-cyan-400" /> COMMERCIAL VOYAGE ROUTE
                 </span>
@@ -921,27 +921,27 @@ function MapViewContent() {
                 <div className="flex items-start gap-2">
                   <Anchor className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase">Departure Port</span>
-                    <p className="font-bold text-slate-100">{selectedVessel.departure_port || "Fujairah Crude Terminal, UAE (AEFUJ)"}</p>
+                    <span className="text-[10px] text-[var(--text-muted)] uppercase">Departure Port</span>
+                    <p className="font-bold text-[var(--text-primary)]">{selectedVessel.departure_port || "Fujairah Crude Terminal, UAE (AEFUJ)"}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase">Destination Port</span>
-                    <p className="font-bold text-slate-100">{selectedVessel.destination_port || "Port of Singapore, Singapore (SGSIN)"}</p>
+                    <span className="text-[10px] text-[var(--text-muted)] uppercase">Destination Port</span>
+                    <p className="font-bold text-[var(--text-primary)]">{selectedVessel.destination_port || "Port of Singapore, Singapore (SGSIN)"}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2">
+            <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-2">
               <div className="flex justify-between items-center text-xs font-mono">
-                <span className="text-slate-300 font-semibold">AIS SPEED ANOMALY HISTORY</span>
+                <span className="text-[var(--text-primary)] font-semibold">AIS SPEED ANOMALY HISTORY</span>
                 <span className="text-rose-400 font-bold text-[10px]">ANOMALY WINDOW DETECTED</span>
               </div>
-              <div className="h-20 w-full bg-[#070a12] rounded-lg border border-slate-800/80 p-2 flex flex-col justify-between relative overflow-hidden">
-                <div className="flex justify-between text-[9px] font-mono text-slate-500">
+              <div className="h-20 w-full bg-[var(--bg-card)] rounded-lg border border-[var(--border-color)] p-2 flex flex-col justify-between relative overflow-hidden">
+                <div className="flex justify-between text-[9px] font-mono text-[var(--text-muted)]">
                   <span>16 kts</span>
                   <span>0 kts</span>
                 </div>
@@ -954,7 +954,7 @@ function MapViewContent() {
                   />
                   <rect x="120" y="2" width="70" height="36" fill="rgba(239, 68, 68, 0.15)" stroke="rgba(239, 68, 68, 0.4)" strokeDasharray="2 2" />
                 </svg>
-                <div className="flex justify-between text-[9px] font-mono text-slate-500">
+                <div className="flex justify-between text-[9px] font-mono text-[var(--text-muted)]">
                   <span>22:00 UTC</span>
                   <span className="text-rose-400">DISCHARGE WINDOW</span>
                   <span>04:00 UTC</span>
@@ -963,48 +963,48 @@ function MapViewContent() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 font-mono text-xs">
-              <div className="bg-slate-950/40 p-3 rounded-lg border border-slate-800/80">
-                <span className="text-[10px] text-slate-400 uppercase">Dist to Slick</span>
-                <p className="text-sm font-bold text-slate-100 mt-0.5">{selectedVessel.distance_km} km</p>
+              <div className="bg-[var(--bg-card-elevated)] p-3 rounded-lg border border-[var(--border-color)]">
+                <span className="text-[10px] text-[var(--text-muted)] uppercase">Dist to Slick</span>
+                <p className="text-sm font-bold text-[var(--text-primary)] mt-0.5">{selectedVessel.distance_km} km</p>
               </div>
-              <div className="bg-slate-950/40 p-3 rounded-lg border border-slate-800/80">
-                <span className="text-[10px] text-slate-400 uppercase">Corridor Offset</span>
+              <div className="bg-[var(--bg-card-elevated)] p-3 rounded-lg border border-[var(--border-color)]">
+                <span className="text-[10px] text-[var(--text-muted)] uppercase">Corridor Offset</span>
                 <p className="text-sm font-bold text-cyan-400 mt-0.5">{selectedVessel.dist_to_drift_corridor_km} km</p>
               </div>
             </div>
 
             {selectedVessel.score_breakdown && (
-              <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2.5 text-xs font-mono">
-                <span className="text-slate-300 font-semibold uppercase text-[10px] tracking-wider">
+              <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-2.5 text-xs font-mono">
+                <span className="text-[var(--text-secondary)] font-semibold uppercase text-[10px] tracking-wider">
                   Attribution Factor Breakdown
                 </span>
 
                 <div className="space-y-1">
-                  <div className="flex justify-between text-slate-400 text-[11px]">
+                  <div className="flex justify-between text-[var(--text-muted)] text-[11px]">
                     <span>Backward Drift Match</span>
                     <span className="text-cyan-400 font-bold">{selectedVessel.score_breakdown.drift_corridor}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-[var(--bg-card)] rounded-full overflow-hidden">
                     <div className="h-full bg-cyan-400" style={{ width: `${selectedVessel.score_breakdown.drift_corridor}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <div className="flex justify-between text-slate-400 text-[11px]">
+                  <div className="flex justify-between text-[var(--text-muted)] text-[11px]">
                     <span>Spatial Proximity</span>
                     <span className="text-cyan-400 font-bold">{selectedVessel.score_breakdown.spatial}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-[var(--bg-card)] rounded-full overflow-hidden">
                     <div className="h-full bg-cyan-400" style={{ width: `${selectedVessel.score_breakdown.spatial}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <div className="flex justify-between text-slate-400 text-[11px]">
+                  <div className="flex justify-between text-[var(--text-muted)] text-[11px]">
                     <span>Behaviour Anomaly</span>
                     <span className="text-cyan-400 font-bold">{selectedVessel.score_breakdown.behaviour}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-[var(--bg-card)] rounded-full overflow-hidden">
                     <div className="h-full bg-cyan-400" style={{ width: `${selectedVessel.score_breakdown.behaviour}%` }} />
                   </div>
                 </div>
@@ -1013,12 +1013,12 @@ function MapViewContent() {
 
             {selectedVessel.why_ranked && (
               <div className="space-y-2">
-                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">
+                <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">
                   Evidence Rationale
                 </span>
-                <div className="space-y-1.5 bg-slate-950/40 p-3.5 rounded-xl border border-slate-800/80 text-xs">
+                <div className="space-y-1.5 bg-[var(--bg-card-elevated)] p-3.5 rounded-xl border border-[var(--border-color)] text-xs">
                   {selectedVessel.why_ranked.map((bullet, bIdx) => (
-                    <div key={bIdx} className="flex items-start gap-2 text-slate-300">
+                    <div key={bIdx} className="flex items-start gap-2 text-[var(--text-primary)]">
                       <Check className="w-3.5 h-3.5 text-emerald-400 font-bold shrink-0 mt-0.5" />
                       <span>{bullet}</span>
                     </div>
@@ -1029,16 +1029,16 @@ function MapViewContent() {
           </div>
 
           {/* Dossier Bottom Action Bar */}
-          <div className="p-4 border-t border-slate-800 bg-[#090d16] flex items-center justify-between gap-2 shrink-0">
+          <div className="p-4 border-t border-[var(--border-color)] bg-[var(--bg-card-elevated)] flex items-center justify-between gap-2 shrink-0">
             <button
               onClick={() => handleDispatchAlert(selectedVessel)}
-              className="flex-1 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold font-mono transition-all flex items-center justify-center gap-1.5 shadow-lg active:scale-95 cursor-pointer"
+              className="flex-1 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-600 dark:text-emerald-300 border border-emerald-500/40 text-xs font-bold font-mono transition-all flex items-center justify-center gap-1.5 shadow-lg active:scale-95 cursor-pointer"
             >
               <ShieldAlert className="w-4 h-4 text-emerald-400" /> Dispatch Alert
             </button>
             <button
               onClick={() => handleExportVesselDossier(selectedVessel)}
-              className="flex-1 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold font-mono transition-all flex items-center justify-center gap-1.5 shadow-lg active:scale-95 cursor-pointer"
+              className="flex-1 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-600 dark:text-cyan-300 border border-cyan-500/40 text-xs font-bold font-mono transition-all flex items-center justify-center gap-1.5 shadow-lg active:scale-95 cursor-pointer"
             >
               <FileText className="w-4 h-4 text-cyan-400" /> Export Dossier
             </button>
