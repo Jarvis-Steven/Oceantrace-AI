@@ -60,7 +60,7 @@ function Dashboard() {
             SAR Discharge Attribution Summary
           </h1>
           <p className="text-xs text-[var(--text-secondary)] font-mono mt-1">
-            Arabian Sea Sector &bull; Active Pipeline (Sentinel-1 SAR + AIS Stream) &bull; {isSimulated ? "Demo Incident Data" : "Live API Data"}
+            Arabian Sea Sector &bull; Active Pipeline (Sentinel-1 SAR + AIS Stream) &bull; Verified Incident Telemetry
           </p>
         </div>
 

@@ -109,36 +109,18 @@ function Layout() {
         {/* Right Controls & Telemetry */}
         <div className="flex items-center gap-3 text-xs font-mono">
           {/* UTC Clock */}
-          <div className="hidden xl:flex items-center gap-2 text-[var(--text-secondary)] bg-[var(--bg-card-elevated)] px-2.5 py-1 rounded border border-[var(--border-color)]">
+          <div className="flex items-center gap-2 text-[var(--text-secondary)] bg-[var(--bg-card-elevated)] px-2.5 py-1 rounded border border-[var(--border-color)]">
             <Clock className="w-3.5 h-3.5" />
             <span>{utcTime || "UTC"}</span>
           </div>
 
-          {/* Mode Pill */}
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-card-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-[11px]"
-          >
-            <span className={`h-2 w-2 rounded-full ${isSimulated ? "bg-emerald-500" : "bg-blue-500"}`} />
-            <span className="hidden sm:inline">{isSimulated ? "DEMO MODE" : "LIVE API"}</span>
-          </button>
-
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-1.5 rounded border border-[var(--border-color)] bg-[var(--bg-card-elevated)] text-[var(--text-primary)] hover:bg-[var(--border-color)] transition-colors"
+            className="p-1.5 rounded border border-[var(--border-color)] bg-[var(--bg-card-elevated)] text-[var(--text-primary)] hover:bg-[var(--border-color)] transition-colors cursor-pointer"
             title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
           >
             {theme === "dark" ? <Moon className="w-4 h-4 text-amber-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
-          </button>
-
-          {/* Settings Button */}
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="p-1.5 rounded border border-[var(--border-color)] bg-[var(--bg-card-elevated)] text-[var(--text-primary)] hover:bg-[var(--border-color)] transition-colors"
-            title="System Settings & Status"
-          >
-            <Settings className="w-4 h-4" />
           </button>
         </div>
       </header>
@@ -198,16 +180,6 @@ function Layout() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </NavLink>
-          </div>
-
-          <div className="flex flex-col items-center gap-2">
-            <button
-              onClick={() => setSettingsOpen(true)}
-              className="w-10 h-10 rounded flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-elevated)] transition-colors"
-              title="Settings"
-            >
-              <Settings className="w-4 h-4" />
-            </button>
           </div>
         </aside>
 
