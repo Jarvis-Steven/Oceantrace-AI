@@ -12,7 +12,7 @@ export function ThemeProvider({ children }) {
     if (saved === "light" || saved === "dark") {
       return saved;
     }
-    // Default to dark mode for professional maritime intelligence interface
+
     return "dark";
   });
 

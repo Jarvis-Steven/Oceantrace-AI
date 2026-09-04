@@ -3,7 +3,6 @@ from services.spill_detection import detect_spill
 from services.attribution import attribute_source
 from services.drift import predict_drift
 
-
 def collect_evidence(simulate=False):
     """
     Build a consolidated evidence report for the current (or simulated) incident case.
@@ -12,7 +11,6 @@ def collect_evidence(simulate=False):
     """
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
-    # 1. Spill Detection
     spill_result = detect_spill(simulate=simulate)
 
     if spill_result.get("status") != "ok":
@@ -38,10 +36,8 @@ def collect_evidence(simulate=False):
             "note": spill_result.get("note"),
         }
 
-    # 2. Multi-factor Attribution & Ranking
     attribution_result = attribute_source(proximity_radius_km=75, simulate=simulate)
 
-    # 3. Drift Engine (Backward Hindcast & Forward Forecast)
     spill_center = spill_result.get("spill_center", {"lat": 9.50, "lon": 70.00})
 
     backward_drift = predict_drift(
@@ -63,7 +59,6 @@ def collect_evidence(simulate=False):
     candidate_vessels = attribution_result.get("candidate_vessels", [])
     top_candidate = attribution_result.get("top_candidate")
 
-    # Environmental summary from drift result
     env_info = backward_drift.get("environment") or {
         "ocean_current": {"speed_kmh": 0.85, "direction_deg": 135.0, "description": "SE flow at 0.85 km/h"},
         "wind": {"speed_kmh": 18.5, "direction_deg": 315.0, "description": "NW wind at 18.5 km/h"},

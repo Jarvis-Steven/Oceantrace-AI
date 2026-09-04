@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 import { Globe as GlobeIcon, Map as MapIcon, RotateCw, AlertTriangle } from "lucide-react";
 
-// Convert Geographic Lat/Lon to 3D Cartesian Coordinates on Globe Surface (Radius R)
 function latLonToVector3(lat, lon, radius = 10, altitude = 0.05) {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lon + 180) * (Math.PI / 180);
@@ -15,42 +14,38 @@ function latLonToVector3(lat, lon, radius = 10, altitude = 0.05) {
   return new THREE.Vector3(x, y, z);
 }
 
-// Procedurally generate high-definition equirectangular world map texture (continents, coastlines, ocean bathymetry)
 function createWorldCanvasTexture() {
   const canvas = document.createElement("canvas");
   canvas.width = 2048;
   canvas.height = 1024;
   const ctx = canvas.getContext("2d");
 
-  // 1. Deep ocean bathymetry base
   ctx.fillStyle = "#0c1e36";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Helper: Lat/Lon to Canvas X/Y
   const toX = (lon) => ((lon + 180) / 360) * canvas.width;
   const toY = (lat) => ((90 - lat) / 180) * canvas.height;
 
-  // 2. Continental Landmass Polygons
   const continents = [
-    // India & South Asia
+
     [[68, 24], [73, 22], [77, 8.5], [80, 13], [88, 22], [72, 35], [68, 24]],
-    // Sri Lanka
+
     [[79.5, 9.8], [81.8, 8.5], [81.5, 6.2], [79.8, 6.2], [79.5, 9.8]],
-    // Arabian Peninsula & Persian Gulf
+
     [[35, 30], [50, 30], [56, 26], [59, 22.5], [54, 16], [43, 12.5], [35, 30]],
-    // Horn of Africa & Africa
+
     [[-18, 35], [33, 30], [51, 11.5], [40, -10], [20, -35], [15, -35], [9, 5], [-18, 35]],
-    // Europe & Eurasia
+
     [[-10, 36], [10, 55], [40, 70], [140, 70], [120, 20], [100, 10], [60, 40], [30, 40], [-10, 36]],
-    // Southeast Asia & Malacca
+
     [[95, 22], [105, 12], [104, 1.5], [98, 8], [95, 22]],
-    // Indonesia & Maritime Continent
+
     [[95, 5], [108, -6], [116, -8], [120, 2], [105, 6], [95, 5]],
-    // Australia
+
     [[113, -12], [142, -11], [153, -28], [138, -35], [115, -35], [113, -12]],
-    // North & South America
+
     [[-130, 55], [-60, 55], [-80, 8], [-40, -10], [-70, -55], [-80, -5], [-100, 20], [-125, 32], [-130, 55]],
-    // Madagascar
+
     [[43, -12], [50, -15], [47, -25], [43, -25], [43, -12]],
   ];
 
@@ -71,7 +66,6 @@ function createWorldCanvasTexture() {
     ctx.stroke();
   });
 
-  // 3. Geographic Lat/Lon Grid Overlay
   ctx.strokeStyle = "rgba(6, 182, 212, 0.12)";
   ctx.lineWidth = 1;
   for (let lon = -180; lon <= 180; lon += 30) {
@@ -87,7 +81,6 @@ function createWorldCanvasTexture() {
     ctx.stroke();
   }
 
-  // 4. Highlight Equator & Prime Meridian
   ctx.strokeStyle = "rgba(6, 182, 212, 0.3)";
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -115,12 +108,10 @@ export default function GlobeView({
 
   const [autoRotate, setAutoRotate] = useState(false);
 
-  // Interaction State for Drag Momentum
   const isDraggingRef = useRef(false);
   const previousMousePositionRef = useRef({ x: 0, y: 0 });
   const velocityRef = useRef({ x: 0, y: 0 });
 
-  // WebGL Feature Detection
   const webglSupported = useMemo(() => {
     try {
       const testCanvas = document.createElement("canvas");
@@ -136,17 +127,14 @@ export default function GlobeView({
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight;
 
-    // 1. Scene Setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color("#070a12");
     sceneRef.current = scene;
 
-    // 2. Perspective Camera (Google Earth 3D view)
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(0, 5, 25);
     cameraRef.current = camera;
 
-    // 3. WebGL Renderer with High Precision
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -155,14 +143,12 @@ export default function GlobeView({
     containerRef.current.innerHTML = "";
     containerRef.current.appendChild(renderer.domElement);
 
-    // 4. Globe Group (Rotated to align Arabian Sea, India, Persian Gulf towards camera)
     const globeGroup = new THREE.Group();
     globeGroup.rotation.y = Math.PI / 1.4;
     globeGroup.rotation.x = Math.PI / 7;
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // 5. Earth Sphere Mesh with Local High-Res Equirectangular World Map Texture
     const textureLoader = new THREE.TextureLoader();
     const globeTexture = textureLoader.load("/assets/earth-dark.jpg");
     globeTexture.colorSpace = THREE.SRGBColorSpace;
@@ -177,25 +163,24 @@ export default function GlobeView({
     const globeMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
     globeGroup.add(globeMesh);
 
-    // 6. 3D Vector Coastlines & Landmass Lines on Sphere Surface
     const continentalPolygons = [
-      // India & South Asia Coastline
+
       [[68, 24], [73, 22], [77, 8.5], [80, 13], [88, 22], [72, 35], [68, 24]],
-      // Sri Lanka
+
       [[79.5, 9.8], [81.8, 8.5], [81.5, 6.2], [79.8, 6.2], [79.5, 9.8]],
-      // Arabian Peninsula & Persian Gulf
+
       [[35, 30], [50, 30], [56, 26], [59, 22.5], [54, 16], [43, 12.5], [35, 30]],
-      // Horn of Africa & Africa
+
       [[-18, 35], [33, 30], [51, 11.5], [40, -10], [20, -35], [15, -35], [9, 5], [-18, 35]],
-      // Europe & Eurasia
+
       [[-10, 36], [10, 55], [40, 70], [140, 70], [120, 20], [100, 10], [60, 40], [30, 40], [-10, 36]],
-      // Southeast Asia & Malacca
+
       [[95, 22], [105, 12], [104, 1.5], [98, 8], [95, 22]],
-      // Indonesia & Maritime Continent
+
       [[95, 5], [108, -6], [116, -8], [120, 2], [105, 6], [95, 5]],
-      // Australia
+
       [[113, -12], [142, -11], [153, -28], [138, -35], [115, -35], [113, -12]],
-      // Americas
+
       [[-130, 55], [-60, 55], [-80, 8], [-40, -10], [-70, -55], [-80, -5], [-100, 20], [-125, 32], [-130, 55]],
     ];
 
@@ -207,7 +192,6 @@ export default function GlobeView({
       globeGroup.add(line);
     });
 
-    // 7. Atmosphere Glow Outer Shell
     const atmosphereGeometry = new THREE.SphereGeometry(10.35, 64, 64);
     const atmosphereMaterial = new THREE.MeshBasicMaterial({
       color: new THREE.Color("#06b6d4"),
@@ -218,7 +202,6 @@ export default function GlobeView({
     const atmosphereMesh = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
     globeGroup.add(atmosphereMesh);
 
-    // 7. Lighting setup (Bright Ambient + Dual Directional for crisp global visibility)
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.6);
     scene.add(ambientLight);
 
@@ -230,7 +213,6 @@ export default function GlobeView({
     dirLight2.position.set(-20, -10, -20);
     scene.add(dirLight2);
 
-    // 8. Render Advection Drift Corridors on Globe
     if (backwardDrift?.trajectory && backwardDrift.trajectory.length > 1) {
       const points = backwardDrift.trajectory.map((p) => latLonToVector3(p.lat, p.lon, 10, 0.08));
       const curve = new THREE.CatmullRomCurve3(points);
@@ -249,7 +231,6 @@ export default function GlobeView({
       globeGroup.add(tubeMesh);
     }
 
-    // 9. Render Candidate Vessels 3D Pins on Globe Surface
     candidateVessels.forEach((v) => {
       if (typeof v.lat !== "number" || typeof v.lon !== "number") return;
       const pos = latLonToVector3(v.lat, v.lon, 10, 0.12);
@@ -264,7 +245,6 @@ export default function GlobeView({
       pinMesh.userData = { vessel: v };
       globeGroup.add(pinMesh);
 
-      // Pulse ring for Top Candidate
       if (isTop) {
         const ringGeom = new THREE.RingGeometry(0.25, 0.38, 32);
         const ringMat = new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
@@ -275,7 +255,6 @@ export default function GlobeView({
       }
     });
 
-    // 10. Selected Vessel Commercial Voyage 3D Arc Path
     const activeV = selectedVessel || attribution?.top_candidate || candidateVessels[0];
     if (activeV?.full_voyage_path && activeV.full_voyage_path.length > 1) {
       const pts = activeV.full_voyage_path.map((coord) => latLonToVector3(coord[0], coord[1], 10, 0.15));
@@ -286,7 +265,6 @@ export default function GlobeView({
       globeGroup.add(arcMesh);
     }
 
-    // 11. Animation Loop with Momentum Dampening
     let animId;
     const animate = () => {
       animId = requestAnimationFrame(animate);
@@ -295,7 +273,7 @@ export default function GlobeView({
         if (autoRotate) {
           globeGroup.rotation.y += 0.003;
         } else {
-          // Inertia momentum dampening
+
           globeGroup.rotation.y += velocityRef.current.x * 0.05;
           globeGroup.rotation.x += velocityRef.current.y * 0.05;
           velocityRef.current.x *= 0.92;
@@ -307,7 +285,6 @@ export default function GlobeView({
     };
     animate();
 
-    // 12. Mouse & Touch Event Handlers (Rotation & Momentum)
     const dom = containerRef.current;
 
     const handleMouseDown = (e) => {
@@ -341,7 +318,6 @@ export default function GlobeView({
     window.addEventListener("mouseup", handleMouseUp);
     dom.addEventListener("wheel", handleWheel, { passive: false });
 
-    // Handle Window Resize
     const handleResize = () => {
       if (!containerRef.current) return;
       const w = containerRef.current.clientWidth;
@@ -384,10 +360,9 @@ export default function GlobeView({
 
   return (
     <div className="h-full w-full relative overflow-hidden bg-[var(--bg-main)]">
-      {/* 3D WebGL Canvas Container */}
+      
       <div ref={containerRef} className="h-full w-full cursor-grab active:cursor-grabbing" />
 
-      {/* Top-Right Auto-Rotation Control Button */}
       <div className="absolute top-4 right-4 z-[1000] font-mono">
         <button
           onClick={() => setAutoRotate(!autoRotate)}
@@ -401,7 +376,6 @@ export default function GlobeView({
         </button>
       </div>
 
-      {/* Telemetry Status Badge */}
       <div className="absolute bottom-6 left-6 z-[1000] bg-[var(--bg-card)] px-3.5 py-2 rounded-xl border border-[var(--border-color)] text-[11px] font-mono text-[var(--text-secondary)] flex items-center gap-3 shadow-md">
         <span className="flex items-center gap-1.5 text-[var(--text-primary)] font-bold">
           <GlobeIcon className="w-4 h-4 text-[var(--text-primary)]" /> 3D SPHERICAL GLOBE PROJECTION (60 FPS)

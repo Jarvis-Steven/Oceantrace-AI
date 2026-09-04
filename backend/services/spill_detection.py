@@ -17,10 +17,6 @@ from sentinelhub import (
 
 load_dotenv()
 
-# =========================================================
-# SENTINEL HUB / COPERNICUS DATA SPACE CONFIGURATION
-# =========================================================
-
 config = SHConfig()
 
 config.sh_client_id = os.getenv("CDSE_CLIENT_ID")
@@ -33,22 +29,11 @@ config.sh_token_url = (
     "CDSE/protocol/openid-connect/token"
 )
 
-
-# =========================================================
-# STUDY REGION
-# =========================================================
-#
-# Canonical Arabian Sea offshore shipping corridor.
-# minLon = 68.5, minLat = 8.0, maxLon = 71.5, maxLat = 11.0
-
 BBOX_COORDS = [68.5, 8.0, 71.5, 11.0]
 
-# Approximate requested spatial resolution.
 RESOLUTION = 200
 
-# In-memory cache for Sentinel-1 detection results
 _SPILL_CACHE = {}
-
 
 def _load_demo_incident():
     demo_path = Path(__file__).resolve().parent.parent.parent / "sample_data" / "demo" / "incident.json"
@@ -60,72 +45,19 @@ def _load_demo_incident():
             pass
     return None
 
-
-# =========================================================
-# DETECTION PARAMETERS
-# =========================================================
-
-# Previously observed clean-ocean dark-pixel reference.
-#
-# This is treated as a reference value, NOT a universal
-# scientific threshold.
-
 BASELINE_DARK_RATIO = 0.046
-
-# Minimum local-anomaly ratio for a candidate.
-#
-# This is deliberately lower than the old global 5% rule
-# because we now look for spatially coherent local anomalies.
 
 MIN_CANDIDATE_RATIO = 0.001
 
-# Minimum connected component size.
-#
-# Very small dark regions are likely to be noise.
-
 MIN_COMPONENT_PIXELS = 20
-
-# Local block size used to estimate the surrounding ocean
-# background.
-#
-# The image is divided into blocks rather than calculating
-# one global background for the entire scene.
 
 LOCAL_BLOCK_SIZE = 32
 
-# Minimum darkness difference from local background.
-#
-# Example:
-#
-# local background = -13 dB
-# candidate pixel   = -18 dB
-#
-# difference = -5 dB
-#
-# This pixel is significantly darker than its surroundings.
-
 MIN_LOCAL_DARKNESS_DB = 2.5
-
-# Maximum plausible local darkness for a REAL oil slick.
-#
-# Real oil-on-water dampening typically produces local
-# darkness differences in roughly the 5-10 dB range.
-#
-# Values far beyond this (e.g. 20-40+ dB) are much more
-# likely to be caused by land/harbor contamination at the
-# edge of the bounding box, strong man-made reflectors, or
-# other sensor artifacts than by an actual slick.
 
 MAX_PLAUSIBLE_DARKNESS_DB = 15.0
 
-# Maximum number of pixels used for global statistics.
-
 MAX_STAT_SAMPLE = 100_000
-
-
-# =========================================================
-# SENTINEL-1 EVALSCRIPT
-# =========================================================
 
 EVALSCRIPT = """
 //VERSION=3
@@ -145,11 +77,6 @@ function evaluatePixel(sample) {
 }
 """
 
-
-# =========================================================
-# SAR CONVERSION
-# =========================================================
-
 def _linear_to_db(values):
     """
     Convert Sentinel-1 linear backscatter to decibels.
@@ -159,11 +86,6 @@ def _linear_to_db(values):
     values = np.asarray(values, dtype=np.float32)
     values = np.maximum(values, 1e-10)
     return 10.0 * np.log10(values)
-
-
-# =========================================================
-# ROBUST STATISTICS
-# =========================================================
 
 def _robust_statistics(values):
     """
@@ -177,11 +99,6 @@ def _robust_statistics(values):
     mad = float(np.median(np.abs(values - median)))
     robust_std = 1.4826 * mad
     return median, mad, robust_std
-
-
-# =========================================================
-# LOCAL BACKGROUND ESTIMATION
-# =========================================================
 
 def _build_local_background(db_image, valid_mask):
     """
@@ -217,11 +134,6 @@ def _build_local_background(db_image, valid_mask):
             background[row_start:row_end, col_start:col_end] = block_median
 
     return background
-
-
-# =========================================================
-# CONNECTED COMPONENT ANALYSIS
-# =========================================================
 
 def _connected_components(mask):
     """
@@ -280,11 +192,6 @@ def _connected_components(mask):
 
     return components
 
-
-# =========================================================
-# PIXEL → GEOGRAPHIC COORDINATES
-# =========================================================
-
 def _pixel_to_geo(row, col, height, width):
     """
     Convert an image pixel into approximate latitude and
@@ -302,16 +209,10 @@ def _pixel_to_geo(row, col, height, width):
     if height <= 1:
         lat = (min_lat + max_lat) / 2
     else:
-        # Image row 0 corresponds approximately to the
-        # northern edge of the requested BBOX.
+
         lat = max_lat - (row / (height - 1)) * (max_lat - min_lat)
 
     return float(lat), float(lon)
-
-
-# =========================================================
-# COMPONENT GEOGRAPHY
-# =========================================================
 
 def _component_geography(component, height, width):
     """
@@ -349,11 +250,6 @@ def _component_geography(component, height, width):
         },
     }
 
-
-# =========================================================
-# CONFIDENCE SCORE
-# =========================================================
-
 def _calculate_confidence(candidate_ratio, local_darkness, component_size):
     """
     Calculate an evidence-strength score.
@@ -382,11 +278,6 @@ def _calculate_confidence(candidate_ratio, local_darkness, component_size):
     )
 
     return round(confidence * 100, 1)
-
-
-# =========================================================
-# MAIN DETECTOR
-# =========================================================
 
 def detect_spill(simulate=False):
     """
@@ -419,14 +310,6 @@ def detect_spill(simulate=False):
             ↓
         Geographic characterization
     """
-
-    # =====================================================
-    # SIMULATION MODE (demo only, no real satellite call)
-    # =====================================================
-
-    # =====================================================
-    # SIMULATION MODE (demo only, no real satellite call)
-    # =====================================================
 
     if simulate:
         demo_data = _load_demo_incident()
@@ -463,7 +346,6 @@ def detect_spill(simulate=False):
                 ),
             }
 
-        # Fallback simulated response if file read fails
         return {
             "status": "ok",
             "possible_slick_detected": True,
@@ -515,10 +397,6 @@ def detect_spill(simulate=False):
     if cache_key in _SPILL_CACHE:
         return _SPILL_CACHE[cache_key]
 
-    # =====================================================
-    # CHECK CREDENTIALS
-    # =====================================================
-
     if not config.sh_client_id or not config.sh_client_secret:
         return {
             "status": "error",
@@ -526,9 +404,6 @@ def detect_spill(simulate=False):
         }
 
     try:
-        # =================================================
-        # CREATE SENTINEL REQUEST
-        # =================================================
 
         bbox = BBox(bbox=BBOX_COORDS, crs=CRS.WGS84)
         size = bbox_to_dimensions(bbox, resolution=RESOLUTION)
@@ -552,20 +427,12 @@ def detect_spill(simulate=False):
             config=config,
         )
 
-        # =================================================
-        # DOWNLOAD IMAGE
-        # =================================================
-
         image = request.get_data()[0]
 
         if image is None:
             return {"status": "error", "message": "Sentinel-1 returned no image."}
 
         image = np.asarray(image, dtype=np.float32)
-
-        # =================================================
-        # VALID PIXELS
-        # =================================================
 
         valid_mask = np.isfinite(image)
         valid_pixels = image[valid_mask]
@@ -576,18 +443,10 @@ def detect_spill(simulate=False):
                 "message": "No valid SAR data returned for this period/region.",
             }
 
-        # =================================================
-        # CONVERT TO dB
-        # =================================================
-
         db_image = np.full_like(image, np.nan, dtype=np.float32)
         db_image[valid_mask] = _linear_to_db(valid_pixels)
 
         valid_db = db_image[valid_mask]
-
-        # =================================================
-        # GLOBAL ROBUST STATISTICS
-        # =================================================
 
         if valid_db.size > MAX_STAT_SAMPLE:
             rng = np.random.default_rng(42)
@@ -598,34 +457,15 @@ def detect_spill(simulate=False):
 
         global_median_db, global_mad_db, global_robust_std_db = _robust_statistics(stats_pixels)
 
-        # =================================================
-        # LOCAL BACKGROUND
-        # =================================================
-
         local_background = _build_local_background(db_image, valid_mask)
 
-        # =================================================
-        # LOCAL DARKNESS MAP
-        # =================================================
-        #
-        # Positive value means the pixel is darker than its
-        # local background.
-
         local_darkness = local_background - db_image
-
-        # =================================================
-        # CANDIDATE MASK
-        # =================================================
 
         candidate_mask = (
             valid_mask
             & np.isfinite(local_darkness)
             & (local_darkness >= MIN_LOCAL_DARKNESS_DB)
         )
-
-        # =================================================
-        # RAW CANDIDATE RATIO
-        # =================================================
 
         candidate_pixels = int(np.sum(candidate_mask))
         total_valid_pixels = int(np.sum(valid_mask))
@@ -635,10 +475,6 @@ def detect_spill(simulate=False):
 
         candidate_ratio = candidate_pixels / total_valid_pixels
 
-        # =================================================
-        # CONNECTED COMPONENTS
-        # =================================================
-
         components = _connected_components(candidate_mask)
 
         meaningful_components = [
@@ -647,10 +483,6 @@ def detect_spill(simulate=False):
         ]
 
         meaningful_components.sort(key=lambda component: component["size"], reverse=True)
-
-        # =================================================
-        # NO MEANINGFUL REGION
-        # =================================================
 
         if not meaningful_components:
             return {
@@ -678,19 +510,11 @@ def detect_spill(simulate=False):
                 ),
             }
 
-        # =================================================
-        # STRONGEST COMPONENT
-        # =================================================
-
         strongest = meaningful_components[0]
         candidate_pixel_count = strongest["size"]
         strongest_ratio = candidate_pixel_count / total_valid_pixels
 
         geography = _component_geography(strongest, image.shape[0], image.shape[1])
-
-        # =================================================
-        # LOCAL DARKNESS OF STRONGEST COMPONENT
-        # =================================================
 
         component_rows = np.array([p[0] for p in strongest["pixels"]], dtype=np.int32)
         component_cols = np.array([p[1] for p in strongest["pixels"]], dtype=np.int32)
@@ -700,36 +524,10 @@ def detect_spill(simulate=False):
         mean_component_darkness = float(np.mean(component_darkness_values))
         max_component_darkness = float(np.max(component_darkness_values))
 
-        # =================================================
-        # ARTIFACT PLAUSIBILITY CHECK
-        # =================================================
-        #
-        # Real oil-on-water darkening is typically a modest
-        # few dB below the local background. Extreme darkness
-        # values are much more likely to come from land/harbor
-        # contamination, strong reflectors, or other artifacts
-        # near the edge of the bounding box than from an actual
-        # slick.
-
         likely_artifact = mean_component_darkness > MAX_PLAUSIBLE_DARKNESS_DB
-
-        # =================================================
-        # AREA ESTIMATION
-        # =================================================
 
         pixel_area_km2 = (RESOLUTION * RESOLUTION) / 1_000_000
         estimated_area_km2 = candidate_pixel_count * pixel_area_km2
-
-        # =================================================
-        # FINAL DETECTION DECISION
-        # =================================================
-        #
-        # We require:
-        #
-        # 1. A meaningful connected region
-        # 2. Candidate region larger than minimum ratio
-        # 3. Local darkness within a plausible physical range
-        #    (i.e. not flagged as a likely artifact)
 
         possible_slick_detected = (
             candidate_pixel_count >= MIN_COMPONENT_PIXELS
@@ -737,19 +535,11 @@ def detect_spill(simulate=False):
             and not likely_artifact
         )
 
-        # =================================================
-        # CONFIDENCE
-        # =================================================
-
         confidence = _calculate_confidence(
             candidate_ratio=strongest_ratio,
             local_darkness=mean_component_darkness,
             component_size=candidate_pixel_count,
         )
-
-        # =================================================
-        # ADDITIONAL CANDIDATES
-        # =================================================
 
         candidate_regions = []
 
@@ -779,10 +569,6 @@ def detect_spill(simulate=False):
                 "bounding_box": region_geo["bounding_box"],
             })
 
-        # =================================================
-        # FINAL RESPONSE
-        # =================================================
-
         return {
             "status": "ok",
             "possible_slick_detected": bool(possible_slick_detected),
@@ -802,20 +588,17 @@ def detect_spill(simulate=False):
                 "height": int(image.shape[0]),
             },
 
-            # SAR statistics
             "mean_backscatter": round(float(np.mean(valid_pixels)), 6),
             "median_backscatter_db": round(global_median_db, 3),
             "mad_db": round(global_mad_db, 3),
             "robust_std_db": round(global_robust_std_db, 3),
 
-            # Detection statistics
             "raw_candidate_ratio": round(candidate_ratio, 5),
             "strongest_candidate_ratio": round(strongest_ratio, 5),
             "clean_ocean_baseline": BASELINE_DARK_RATIO,
             "local_darkness_threshold_db": MIN_LOCAL_DARKNESS_DB,
             "max_plausible_darkness_db": MAX_PLAUSIBLE_DARKNESS_DB,
 
-            # Strongest candidate
             "spill_center": geography["center"],
             "spill_bounding_box": geography["bounding_box"],
             "spill_pixel_count": candidate_pixel_count,
@@ -831,10 +614,8 @@ def detect_spill(simulate=False):
             ),
             "confidence": confidence,
 
-            # Other detected regions
             "candidate_regions": candidate_regions,
 
-            # Scientific disclaimer
             "note": (
                 "Prototype local SAR anomaly detector, not a validated "
                 "oil-spill classification model. Dark SAR signatures can "

@@ -2,7 +2,6 @@ import os
 import sys
 import pytest
 
-# Ensure backend directory is in sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from fastapi.testclient import TestClient
@@ -15,7 +14,6 @@ from services.evidence import collect_evidence
 
 client = TestClient(app)
 
-
 def test_health_check():
     response = client.get("/health")
     assert response.status_code == 200
@@ -23,12 +21,10 @@ def test_health_check():
     assert json_data["status"] == "ok"
     assert json_data["service"] == "oceantrace-backend"
 
-
 def test_haversine_calculation():
-    # Distance between 9.50, 70.00 and 9.50, 70.10 (approx ~11 km)
+
     dist = _haversine_km(9.50, 70.00, 9.50, 70.10)
     assert 10.0 <= dist <= 12.0
-
 
 def test_spill_detection_simulation():
     res = detect_spill(simulate=True)
@@ -39,7 +35,6 @@ def test_spill_detection_simulation():
     assert res["spill_center"]["lon"] == 70.00
     assert res["confidence"] > 50
 
-
 def test_ais_normalization_and_demo():
     res = get_ais_data(simulate=True)
     assert res["status"] == "ok"
@@ -49,16 +44,14 @@ def test_ais_normalization_and_demo():
     assert "mmsi" in first_vessel
     assert "vesselType" in first_vessel
 
-
 def test_backward_drift_simulation():
     res = predict_drift(lat=9.50, lon=70.00, hours=48, direction="backward", simulate=True)
     assert res["status"] == "ok"
     assert res["direction"] == "backward"
     assert len(res["trajectory"]) > 0
-    # First point should be origin at step 0
+
     assert res["trajectory"][0]["lat"] == 9.50
     assert res["trajectory"][0]["lon"] == 70.00
-
 
 def test_attribution_evidence_fusion():
     res = attribute_source(proximity_radius_km=75, simulate=True)
@@ -72,7 +65,6 @@ def test_attribution_evidence_fusion():
     assert "why_ranked" in top
     assert top["attribution_score"] >= 70.0
 
-
 def test_evidence_report_consolidation():
     res = collect_evidence(simulate=True)
     assert res["status"] == "ok"
@@ -82,7 +74,6 @@ def test_evidence_report_consolidation():
     assert "forward_drift" in res
     assert "attribution" in res
     assert res["attribution"]["top_candidate"] is not None
-
 
 def test_api_endpoints_simulated():
     routes = [

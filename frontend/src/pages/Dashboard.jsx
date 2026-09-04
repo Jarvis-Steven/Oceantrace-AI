@@ -49,7 +49,7 @@ function Dashboard() {
 
   return (
     <div className="h-full w-full overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8 bg-[var(--bg-main)] text-[var(--text-primary)] font-sans">
-      {/* Executive Command Header */}
+      
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-6">
         <div>
           <div className="flex items-center gap-2 mb-1.5 font-mono text-xs text-[var(--text-secondary)] font-semibold tracking-wider uppercase">
@@ -74,7 +74,6 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Top 3 High-Impact KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <MetricCard
           title="Detected SAR Anomalies"
@@ -99,9 +98,8 @@ function Dashboard() {
         />
       </div>
 
-      {/* Hero 2-Column Incident Spotlight */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Spotlight: Active SAR Anomaly */}
+        
         <div className="lg:col-span-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-md p-6 flex flex-col justify-between space-y-6 shadow-sm">
           <div>
             <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4 mb-5">
@@ -150,7 +148,6 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Right Spotlight: Rank #1 Suspect Vessel */}
         <div className="lg:col-span-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-md p-6 flex flex-col justify-between space-y-6 shadow-sm">
           <div>
             <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4 mb-5">
@@ -208,7 +205,6 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Streamlined Top Candidate Directory */}
       <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-md p-6 space-y-5 shadow-sm">
         <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
           <div className="flex items-center gap-2.5 font-mono">

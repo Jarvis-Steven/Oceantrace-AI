@@ -10,9 +10,7 @@ load_dotenv()
 GFW_TOKEN = os.getenv("GFW_API_TOKEN")
 GFW_BASE = "https://gateway.api.globalfishingwatch.org/v3"
 
-# Canonical Arabian Sea BBOX: [minLon, minLat, maxLon, maxLat]
 DEFAULT_BBOX = [68.5, 8.0, 71.5, 11.0]
-
 
 def _load_demo_vessels():
     demo_path = Path(__file__).resolve().parent.parent.parent / "sample_data" / "demo" / "incident.json"
@@ -25,9 +23,7 @@ def _load_demo_vessels():
             pass
     return []
 
-
 import math
-
 
 def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
     """
@@ -42,13 +38,12 @@ def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
     course = float(course_deg) if isinstance(course_deg, (int, float)) else 135.0
     name_upper = (ship_name or "").upper()
 
-    # 1. Custom Authentic Multi-Waypoint Shipping Lane Routes for Candidates
     if "ARABIAN STAR" in name_upper:
         return [
             {"step_hours": -24, "lat": 10.85, "lon": 67.90, "speed": 15.2, "course": 135.0},
             {"step_hours": -18, "lat": 10.25, "lon": 68.60, "speed": 14.8, "course": 135.0},
             {"step_hours": -12, "lat": 9.70, "lon": 69.20, "speed": 14.5, "course": 135.0},
-            {"step_hours": -6, "lat": 9.38, "lon": 69.62, "speed": 7.5, "course": 138.0},  # Loitering / Discharge Event
+            {"step_hours": -6, "lat": 9.38, "lon": 69.62, "speed": 7.5, "course": 138.0},
             {"step_hours": -3, "lat": 9.30, "lon": 69.70, "speed": 11.2, "course": 135.0},
             {"step_hours": 0, "lat": 9.25, "lon": 69.75, "speed": 11.2, "course": 135.0},
         ]
@@ -75,7 +70,7 @@ def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
 
     if "TARKASH" in name_upper:
         return [
-            {"step_hours": -24, "lat": 9.95, "lon": 75.80, "speed": 12.0, "course": 270.0},  # Naval Base Kochi Departure
+            {"step_hours": -24, "lat": 9.95, "lon": 75.80, "speed": 12.0, "course": 270.0},
             {"step_hours": -18, "lat": 9.90, "lon": 74.20, "speed": 18.0, "course": 260.0},
             {"step_hours": -12, "lat": 9.85, "lon": 72.50, "speed": 22.0, "course": 260.0},
             {"step_hours": -6, "lat": 9.82, "lon": 70.80, "speed": 20.0, "course": 270.0},
@@ -173,7 +168,6 @@ def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
             {"step_hours": 0, "lat": 10.05, "lon": 71.30, "speed": 18.0, "course": 295.0},
         ]
 
-    # 2. East Coast / Bay of Bengal Ships (CHENNAI, VIZAG, BENGAL) - Route around South Sri Lanka
     if lon > 78.0 and lat > 8.0:
         return [
             {"step_hours": -24, "lat": 5.80, "lon": 80.20, "speed": speed, "course": 30.0},
@@ -184,7 +178,6 @@ def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
             {"step_hours": 0, "lat": lat, "lon": lon, "speed": speed, "course": course},
         ]
 
-    # 3. West Coast India Coastal Vessels (MUMBAI, GOA, MANGALORE, KONKAN) - Follow Continental Shelf Curvature
     if 71.5 < lon < 77.0 and lat > 11.0:
         return [
             {"step_hours": -24, "lat": round(lat + 2.2, 4), "lon": round(lon - 1.4, 4), "speed": speed, "course": 160.0},
@@ -195,7 +188,6 @@ def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
             {"step_hours": 0, "lat": lat, "lon": lon, "speed": speed, "course": course},
         ]
 
-    # 4. Sri Lanka / Cape Comorin South Ocean Passage
     if lat < 8.0 and lon > 76.0:
         return [
             {"step_hours": -24, "lat": 6.80, "lon": 74.50, "speed": speed, "course": 105.0},
@@ -206,14 +198,13 @@ def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
             {"step_hours": 0, "lat": lat, "lon": lon, "speed": speed, "course": course},
         ]
 
-    # 5. Offshore Deepwater Shipping Lane Routing with Gentle Rudder Curvature
     speed_kmh = max(4.0, speed) * 1.852
     deg_per_hour = speed_kmh / 111.0
     rad = math.radians(course)
 
     track = []
     for h in [-24, -18, -12, -6, -3, 0]:
-        # Organic oceanic serpentine curve to mimic actual steering around swell
+
         curve_lat = 0.06 * math.sin((h + 24) * 0.22)
         curve_lon = 0.04 * math.cos((h + 24) * 0.18)
 
@@ -232,11 +223,9 @@ def _generate_vessel_track(lat, lon, course_deg, speed_kts, ship_name=""):
         })
     return track
 
-
 def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
     name_upper = (ship_name or "").upper()
 
-    # Water-constrained shipping lane through Strait of Hormuz -> Gulf of Oman -> Around Ras al Hadd -> Arabian Sea -> Cape Comorin Bypass -> South Sri Lanka -> Singapore
     if "ARABIAN STAR" in name_upper:
         return {
             "departure_port": "Ras Tanura Crude Terminal, Saudi Arabia (SARTN)",
@@ -244,29 +233,28 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Port of Singapore, Singapore (SGSIN)",
             "destination_coords": [1.26, 103.84],
             "full_voyage_path": [
-                [26.65, 50.15], # Ras Tanura Port
-                [26.45, 53.50], # Central Persian Gulf Water Channel
-                [26.50, 56.40], # Strait of Hormuz Passage
-                [24.80, 57.20], # Gulf of Oman Offshore Channel
-                [23.90, 58.60], # Offshore Muscat
-                [22.80, 59.90], # Bypass Ras al Hadd Peninsula, Oman
-                [18.20, 62.50], # Northern Arabian Sea Deepwater Corridor
-                [14.10, 65.80], # Central Arabian Sea Corridor
-                [10.85, 67.90], # Approaching Incident Sector (-24h)
-                [9.55, 69.45],  # Origin Corridor Intercept (-12h)
-                [9.38, 69.62],  # Loitering Window (-6h)
-                [9.25, 69.75],  # Current Position (0h)
-                [7.20, 74.50],  # Laccadive Sea Ocean Corridor
-                [6.00, 77.20],  # Offshore Cape Comorin Channel (South of India)
-                [5.60, 79.50],  # Offshore Galle / Matara Channel (South of Sri Lanka)
-                [5.80, 80.50],  # Offshore Dondra Head Passage
-                [6.00, 94.00],  # Great Nicobar Channel Entrance
-                [4.00, 99.50],  # Malacca Strait Water Channel
-                [1.26, 103.84]  # Port of Singapore
+                [26.65, 50.15],
+                [26.45, 53.50],
+                [26.50, 56.40],
+                [24.80, 57.20],
+                [23.90, 58.60],
+                [22.80, 59.90],
+                [18.20, 62.50],
+                [14.10, 65.80],
+                [10.85, 67.90],
+                [9.55, 69.45],
+                [9.38, 69.62],
+                [9.25, 69.75],
+                [7.20, 74.50],
+                [6.00, 77.20],
+                [5.60, 79.50],
+                [5.80, 80.50],
+                [6.00, 94.00],
+                [4.00, 99.50],
+                [1.26, 103.84]
             ]
         }
 
-    # Water-constrained shipping lane Fujairah -> Gulf of Oman -> Around Ras al Hadd -> Arabian Sea -> Colombo
     if "SEA EMPRESS" in name_upper:
         return {
             "departure_port": "Fujairah Oil Terminal, UAE (AEFUJ)",
@@ -274,19 +262,18 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Port of Colombo, Sri Lanka (LKCMB)",
             "destination_coords": [6.95, 79.84],
             "full_voyage_path": [
-                [25.18, 56.36], # Fujairah Terminal
-                [24.80, 57.20], # Gulf of Oman Water Channel
-                [23.90, 58.60], # Offshore Muscat
-                [22.80, 59.90], # Bypass Ras al Hadd Peninsula, Oman
-                [16.20, 64.10], # Arabian Sea Deepwater Corridor
-                [11.50, 67.60], # (-24h)
-                [9.38, 69.88],  # Current Position (0h)
-                [7.20, 74.50],  # Laccadive Sea Ocean Corridor
-                [6.95, 79.84]   # Port of Colombo
+                [25.18, 56.36],
+                [24.80, 57.20],
+                [23.90, 58.60],
+                [22.80, 59.90],
+                [16.20, 64.10],
+                [11.50, 67.60],
+                [9.38, 69.88],
+                [7.20, 74.50],
+                [6.95, 79.84]
             ]
         }
 
-    # Water-constrained shipping lane Colombo -> Laccadive Sea -> Arabian Sea -> Socotra -> Bab-el-Mandeb -> Red Sea -> Jeddah
     if "OCEAN PHOENIX" in name_upper:
         return {
             "departure_port": "Port of Colombo, Sri Lanka (LKCMB)",
@@ -294,15 +281,15 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Jeddah Islamic Port, Saudi Arabia (SAJED)",
             "destination_coords": [21.48, 39.18],
             "full_voyage_path": [
-                [6.95, 79.84],  # Port of Colombo
-                [7.20, 74.50],  # Laccadive Sea Ocean Corridor
-                [7.80, 73.20],  # (-24h)
-                [9.48, 70.12],  # Current Position (0h)
-                [12.50, 60.20], # Arabian Sea Crossing
-                [12.50, 53.00], # Offshore Socotra Island Water Channel
-                [12.60, 43.30], # Bab-el-Mandeb Strait
-                [16.50, 41.20], # Red Sea Central Channel
-                [21.48, 39.18]  # Jeddah Islamic Port
+                [6.95, 79.84],
+                [7.20, 74.50],
+                [7.80, 73.20],
+                [9.48, 70.12],
+                [12.50, 60.20],
+                [12.50, 53.00],
+                [12.60, 43.30],
+                [16.50, 41.20],
+                [21.48, 39.18]
             ]
         }
 
@@ -313,10 +300,10 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Arabian Sea EEZ Patrol Sector",
             "destination_coords": [9.85, 69.30],
             "full_voyage_path": [
-                [9.95, 76.26], # Kochi Naval Base
-                [9.90, 74.20], # Offshore Transit
+                [9.95, 76.26],
+                [9.90, 74.20],
                 [9.85, 72.50],
-                [9.85, 69.30]  # EEZ Patrol Boundary
+                [9.85, 69.30]
             ]
         }
 
@@ -327,12 +314,12 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Chennai Port, Tamil Nadu, India (INMAA)",
             "destination_coords": [13.08, 80.29],
             "full_voyage_path": [
-                [6.95, 79.84], # Colombo Port
-                [5.60, 79.50], # Offshore South Sri Lanka Passage
-                [5.80, 80.50], # Offshore Dondra Head Passage
-                [7.50, 82.20], # East Sri Lanka Deepwater Channel
-                [10.20, 81.20],# Coromandel Approach Channel
-                [13.08, 80.29] # Chennai Port
+                [6.95, 79.84],
+                [5.60, 79.50],
+                [5.80, 80.50],
+                [7.50, 82.20],
+                [10.20, 81.20],
+                [13.08, 80.29]
             ]
         }
 
@@ -343,11 +330,11 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Kochi Port, Kerala, India (INKOK)",
             "destination_coords": [9.96, 76.22],
             "full_voyage_path": [
-                [18.95, 72.95], # JNPT Mumbai
-                [16.50, 72.50], # Offshore Ratnagiri Water Channel
-                [14.20, 73.20], # Offshore Goa Water Channel
-                [11.50, 74.20], # Offshore Mangalore Water Channel
-                [9.96, 76.22]   # Kochi Port
+                [18.95, 72.95],
+                [16.50, 72.50],
+                [14.20, 73.20],
+                [11.50, 74.20],
+                [9.96, 76.22]
             ]
         }
 
@@ -358,10 +345,10 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Port of Colombo, Sri Lanka (LKCMB)",
             "destination_coords": [6.95, 79.84],
             "full_voyage_path": [
-                [8.75, 78.18], # Tuticorin Port Entrance
-                [8.40, 78.50], # Gulf of Mannar Deep Water Channel
-                [7.80, 79.20], # Offshore Mannar Passage
-                [6.95, 79.84]  # Port of Colombo (100% in Gulf of Mannar water, zero land crossing!)
+                [8.75, 78.18],
+                [8.40, 78.50],
+                [7.80, 79.20],
+                [6.95, 79.84]
             ]
         }
 
@@ -372,10 +359,10 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             "destination_port": "Offshore Laccadive Fishing Grounds",
             "destination_coords": [12.10, 72.80],
             "full_voyage_path": [
-                [12.86, 74.84], # Mangalore Harbour
-                [12.80, 74.20], # Offshore Coastal Channel
-                [12.50, 73.50], # Laccadive Sea Passage
-                [12.10, 72.80]  # Laccadive Offshore Bank (100% in coastal water!)
+                [12.86, 74.84],
+                [12.80, 74.20],
+                [12.50, 73.50],
+                [12.10, 72.80]
             ]
         }
 
@@ -491,34 +478,32 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
             ]
         }
 
-    # Universal Land-Safe Water-Constrained Fallback Route (Coastal Hugging + South India Water Bypass)
     c_lat = current_lat or 9.5
     c_lon = current_lon or 70.0
     
-    # If vessel is in Arabian Sea / West Coast, route along coastal water channel to South India Bypass
     if c_lon < 77.0:
         fallback_path = [
-            [25.18, 56.36], # Fujairah Terminal
-            [24.80, 57.20], # Gulf of Oman Channel
-            [23.90, 58.60], # Offshore Muscat
-            [22.80, 59.90], # Bypass Ras al Hadd Peninsula, Oman
-            [15.50, 64.80], # Deepwater Arabian Sea
-            [c_lat, c_lon], # Vessel Current Position
-            [7.20, 74.50],  # Laccadive Sea Corridor
-            [6.00, 77.20],  # Offshore Cape Comorin Channel (South of India)
-            [5.60, 79.50],  # Offshore Galle Channel (South of Sri Lanka)
-            [5.80, 80.50],  # Dondra Head Passage
-            [6.00, 94.00],  # Great Nicobar Passage
-            [3.00, 101.40]  # Port of Malacca
+            [25.18, 56.36],
+            [24.80, 57.20],
+            [23.90, 58.60],
+            [22.80, 59.90],
+            [15.50, 64.80],
+            [c_lat, c_lon],
+            [7.20, 74.50],
+            [6.00, 77.20],
+            [5.60, 79.50],
+            [5.80, 80.50],
+            [6.00, 94.00],
+            [3.00, 101.40]
         ]
     else:
-        # Vessel is in Bay of Bengal / East Coast
+
         fallback_path = [
-            [13.08, 80.29], # Chennai Port
-            [10.20, 81.20], # Coromandel Approach Channel
-            [7.50, 82.20],  # East Sri Lanka Channel
-            [5.80, 80.50],  # Dondra Head Passage
-            [3.00, 101.40]  # Port of Malacca
+            [13.08, 80.29],
+            [10.20, 81.20],
+            [7.50, 82.20],
+            [5.80, 80.50],
+            [3.00, 101.40]
         ]
 
     return {
@@ -528,7 +513,6 @@ def _generate_commercial_voyage(ship_name, current_lat, current_lon, course):
         "destination_coords": [3.00, 101.40],
         "full_voyage_path": fallback_path
     }
-
 
 def normalize_vessel_record(v):
     """
@@ -563,11 +547,10 @@ def normalize_vessel_record(v):
         "full_voyage_path": voyage["full_voyage_path"],
     }
 
-
 def _generate_background_vessels():
     base_vessels = _load_demo_vessels()
     extra_vessels = [
-        # Incident Investigation Zone (Offshore Arabian Sea)
+
         {"shipName": "MT OCEAN PRIDE", "mmsi": "538009812", "vesselType": "Oil Tanker", "flag": "MH", "lat": 10.20, "lon": 69.10, "speed": 14.2, "course": 120.0},
         {"shipName": "MV ARABIAN BREEZE", "mmsi": "419008923", "vesselType": "Container Ship", "flag": "IN", "lat": 8.90, "lon": 71.10, "speed": 17.5, "course": 310.0},
         {"shipName": "MV KERALA STAR", "mmsi": "419003411", "vesselType": "General Cargo", "flag": "IN", "lat": 9.70, "lon": 70.80, "speed": 11.0, "course": 180.0},
@@ -577,23 +560,19 @@ def _generate_background_vessels():
         {"shipName": "MT DESH SHANTI", "mmsi": "419004592", "vesselType": "Crude Carrier", "flag": "IN", "lat": 9.10, "lon": 68.80, "speed": 15.0, "course": 115.0},
         {"shipName": "MV BHARAT RATNA", "mmsi": "419007781", "vesselType": "Container Ship", "flag": "IN", "lat": 10.05, "lon": 71.30, "speed": 18.0, "course": 295.0},
 
-        # Mumbai / Northern Arabian Sea Shipping Corridor
         {"shipName": "MV MUMBAI MAJESTY", "mmsi": "419001199", "vesselType": "Container Ship", "flag": "IN", "lat": 18.85, "lon": 72.40, "speed": 16.5, "course": 190.0},
         {"shipName": "MT KONKAN TANKER", "mmsi": "419003388", "vesselType": "Oil Tanker", "flag": "IN", "lat": 19.50, "lon": 70.80, "speed": 13.0, "course": 140.0},
         {"shipName": "MV GUJARAT GLORY", "mmsi": "419005512", "vesselType": "General Cargo", "flag": "IN", "lat": 20.20, "lon": 69.20, "speed": 12.0, "course": 165.0},
         {"shipName": "MT PERSIAN PRINCESS", "mmsi": "636011420", "vesselType": "Crude Carrier", "flag": "LR", "lat": 17.40, "lon": 68.50, "speed": 14.8, "course": 135.0},
 
-        # Goa / Mangalore / Central Coast Shipping Lane
         {"shipName": "MV GOA FREIGHTER", "mmsi": "419002231", "vesselType": "Bulk Carrier", "flag": "IN", "lat": 15.20, "lon": 73.10, "speed": 11.5, "course": 175.0},
         {"shipName": "MT KARNATAKA STAR", "mmsi": "419004412", "vesselType": "Chemical Tanker", "flag": "IN", "lat": 13.80, "lon": 73.80, "speed": 13.2, "course": 160.0},
         {"shipName": "FV MANGALORE SEA", "mmsi": "419992381", "vesselType": "Fishing Vessel", "flag": "IN", "lat": 12.80, "lon": 74.20, "speed": 6.2, "course": 210.0},
 
-        # Cape Comorin / Sri Lanka International Shipping Corridor
         {"shipName": "MV CEYLON EXPRESS", "mmsi": "563008912", "vesselType": "Container Ship", "flag": "LK", "lat": 5.90, "lon": 80.20, "speed": 19.2, "course": 85.0},
         {"shipName": "MT INDIAN OCEAN OIL", "mmsi": "419006782", "vesselType": "Crude Carrier", "flag": "IN", "lat": 6.40, "lon": 78.50, "speed": 15.4, "course": 90.0},
         {"shipName": "MV TUTICORIN STAR", "mmsi": "419007812", "vesselType": "General Cargo", "flag": "IN", "lat": 8.10, "lon": 77.80, "speed": 10.8, "course": 120.0},
 
-        # Bay of Bengal Maritime Network
         {"shipName": "MV CHENNAI CARRIER", "mmsi": "419001889", "vesselType": "Container Ship", "flag": "IN", "lat": 13.10, "lon": 80.80, "speed": 17.0, "course": 45.0},
         {"shipName": "MT VIZAG PRIDE", "mmsi": "419003311", "vesselType": "Oil Tanker", "flag": "IN", "lat": 17.60, "lon": 83.50, "speed": 12.8, "course": 30.0},
         {"shipName": "MV BENGAL BAY VOYAGER", "mmsi": "563014902", "vesselType": "Bulk Carrier", "flag": "SG", "lat": 15.40, "lon": 85.20, "speed": 14.0, "course": 60.0},
@@ -617,7 +596,6 @@ def get_ais_data(simulate=False, start_date_str=None, end_date_str=None):
             "message": "Loaded normalized demo AIS vessel records.",
         }
 
-    # Dynamic default date range: past 7 days
     if not end_date_str:
         end_date_str = date.today().isoformat()
     if not start_date_str:
@@ -662,7 +640,6 @@ def get_ais_data(simulate=False, start_date_str=None, end_date_str=None):
         resp.raise_for_status()
         raw_json = resp.json()
 
-        # Extract & normalize vessels from GFW response structure
         raw_vessels = []
         entries = raw_json.get("entries", [])
         if entries:
@@ -679,7 +656,7 @@ def get_ais_data(simulate=False, start_date_str=None, end_date_str=None):
             "raw_data": raw_json,
         }
     except Exception as e:
-        # Fallback gracefully to demo vessel records on API failure
+
         demo_vessels = _load_demo_vessels()
         normalized = [normalize_vessel_record(v) for v in demo_vessels]
         return {

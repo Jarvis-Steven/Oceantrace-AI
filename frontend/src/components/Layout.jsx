@@ -12,7 +12,6 @@ function Layout() {
   const [isSimulated, setIsSimulated] = useState(true);
   const location = useLocation();
 
-  // Update live UTC clock every second
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -29,16 +28,15 @@ function Layout() {
     return () => clearInterval(interval);
   }, []);
 
-  // Close mobile sidebar on route change
   useEffect(() => {
     setSidebarOpen(false);
   }, [location]);
 
   return (
     <div className="h-screen w-screen bg-[var(--bg-main)] text-[var(--text-primary)] font-sans flex flex-col overflow-hidden select-none transition-colors duration-150">
-      {/* Top Application Header */}
+      
       <header className="h-14 bg-[var(--bg-card)] border-b border-[var(--border-color)] px-4 sm:px-6 flex items-center justify-between z-40 shrink-0">
-        {/* Brand Title */}
+        
         <div className="flex items-center gap-3">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -65,7 +63,6 @@ function Layout() {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
         <nav className="hidden md:flex items-center gap-1">
           <NavLink
             to="/"
@@ -106,15 +103,13 @@ function Layout() {
           </NavLink>
         </nav>
 
-        {/* Right Controls & Telemetry */}
         <div className="flex items-center gap-3 text-xs font-mono">
-          {/* UTC Clock */}
+          
           <div className="flex items-center gap-2 text-[var(--text-secondary)] bg-[var(--bg-card-elevated)] px-2.5 py-1 rounded border border-[var(--border-color)]">
             <Clock className="w-3.5 h-3.5" />
             <span>{utcTime || "UTC"}</span>
           </div>
 
-          {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             className="p-1.5 rounded border border-[var(--border-color)] bg-[var(--bg-card-elevated)] text-[var(--text-primary)] hover:bg-[var(--border-color)] transition-colors cursor-pointer"
@@ -125,9 +120,8 @@ function Layout() {
         </div>
       </header>
 
-      {/* Main Body Layout */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Left Command Strip */}
+        
         <aside
           className={`fixed md:relative z-30 h-full w-14 bg-[var(--bg-card)] border-r border-[var(--border-color)] flex flex-col items-center py-3 justify-between transition-transform duration-200 shrink-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
@@ -183,7 +177,6 @@ function Layout() {
           </div>
         </aside>
 
-        {/* Mobile Backdrop */}
         {sidebarOpen && (
           <div
             onClick={() => setSidebarOpen(false)}
@@ -191,13 +184,11 @@ function Layout() {
           />
         )}
 
-        {/* Main Route Viewport */}
         <main className="flex-1 h-full w-full overflow-hidden relative bg-[var(--bg-main)]">
           <Outlet context={{ isSimulated, setIsSimulated }} />
         </main>
       </div>
 
-      {/* Footer Status Bar */}
       <footer className="h-6 bg-[var(--bg-card)] border-t border-[var(--border-color)] px-4 flex items-center justify-between text-[10px] font-mono text-[var(--text-secondary)] shrink-0 z-40">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
@@ -213,7 +204,6 @@ function Layout() {
         </div>
       </footer>
 
-      {/* Settings Preferences Modal */}
       <SettingsModal
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}

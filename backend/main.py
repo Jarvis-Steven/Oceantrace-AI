@@ -15,7 +15,6 @@ app.add_middleware(
 
 app.include_router(router)
 
-
 @app.get("/health")
 def health_check():
     return {"status": "ok", "service": "oceantrace-backend"}

@@ -27,7 +27,6 @@ import {
   Globe,
 } from "lucide-react";
 
-// Deconflict overlapping vessel coordinates with radial spiderfy micro-offsets
 function getDeconflictedVessels(vessels) {
   if (!vessels || vessels.length === 0) return [];
 
@@ -56,7 +55,7 @@ function getDeconflictedVessels(vessels) {
       result.push({ ...cluster[0], renderLat: cluster[0].lat, renderLon: cluster[0].lon });
     } else {
       const n = cluster.length;
-      const radius = 0.035; // ~3.5 km offset radius for visual deconfliction
+      const radius = 0.035;
       cluster.forEach((v, idx) => {
         const angle = (idx * 2 * Math.PI) / n - Math.PI / 2;
         const renderLat = v.lat + radius * Math.sin(angle);
@@ -74,7 +73,6 @@ function getDeconflictedVessels(vessels) {
   return result;
 }
 
-// Error Boundary component for Map initialization
 class MapErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -129,24 +127,19 @@ function MapViewContent() {
   const [forwardDrift, setForwardDrift] = useState(null);
   const [allVessels, setAllVessels] = useState([]);
 
-  // Projection Mode State (2D Bounded Planar vs 3D Spherical Globe)
   const [projectionMode, setProjectionMode] = useState("2d");
 
-  // Layer Visibility Controls
   const [showSlick, setShowSlick] = useState(true);
   const [showBackwardDrift, setShowBackwardDrift] = useState(true);
   const [showForwardDrift, setShowForwardDrift] = useState(true);
   const [showNormalVessels, setShowNormalVessels] = useState(true);
   const [showTrajectories, setShowTrajectories] = useState(true);
 
-  // Selected Vessel for Right Dossier Panel
   const [selectedVessel, setSelectedVessel] = useState(null);
   const [leftPanelOpen, setLeftPanelOpen] = useState(true);
 
-  // Dispatch Alert Modal State
   const [dispatchAlertModal, setDispatchAlertModal] = useState(null);
 
-  // FLOATABLE / DRAGGABLE PANEL POSITION STATE
   const [panelPos, setPanelPos] = useState({ x: 16, y: 16 });
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ startX: 0, startY: 0, initialX: 16, initialY: 16 });
@@ -194,7 +187,6 @@ function MapViewContent() {
     };
   }, [isDragging]);
 
-  // Resize handler
   useEffect(() => {
     const handleResize = () => {
       if (mapRef.current) {
@@ -205,7 +197,6 @@ function MapViewContent() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Fetch Attribution & Spill Detection Data (Unified Pipeline)
   const loadMapData = () => {
     setLoading(true);
     setFetchError(null);
@@ -229,7 +220,6 @@ function MapViewContent() {
     loadMapData();
   }, []);
 
-  // Fetch Background AIS Traffic (Unified Pipeline)
   useEffect(() => {
     getAisData(true)
       .then((res) => {
@@ -240,7 +230,6 @@ function MapViewContent() {
       .catch((err) => console.warn("AIS fetch error:", err));
   }, []);
 
-  // DYNAMIC MAP CENTERING TO SAR OIL SLICK AREA ON OPEN / LOAD
   const focusSlickArea = () => {
     if (!mapRef.current) return;
     const center = attribution?.spill_center || { lat: 9.50, lon: 70.00 };
@@ -262,7 +251,6 @@ function MapViewContent() {
     }
   };
 
-  // Trigger dynamic flyTo when attribution data loads or map mounts
   useEffect(() => {
     if (attribution && mapRef.current) {
       const timer = setTimeout(() => {
@@ -272,7 +260,6 @@ function MapViewContent() {
     }
   }, [attribution]);
 
-  // Fetch Drift
   useEffect(() => {
     const spillCenter = attribution?.spill_center || { lat: 9.50, lon: 70.00 };
 
@@ -287,7 +274,6 @@ function MapViewContent() {
       .catch((err) => console.warn("Drift fetch error:", err));
   }, [attribution]);
 
-  // Dispatch Alert Trigger Handler
   const handleDispatchAlert = (vessel) => {
     if (!vessel) return;
     setDispatchAlertModal({
@@ -304,7 +290,6 @@ function MapViewContent() {
     });
   };
 
-  // Export Dossier JSON Handler
   const handleExportVesselDossier = (vessel) => {
     if (!vessel) return;
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(vessel, null, 2));
@@ -316,25 +301,21 @@ function MapViewContent() {
     downloadAnchor.remove();
   };
 
-  // MEMOIZE RAW CANDIDATES
   const rawCandidateVessels = useMemo(
     () => attribution?.candidate_vessels || [],
     [attribution]
   );
 
-  // MEMOIZE SPATIAL DECONFLICTION TO PREVENT RE-RUNNING ON DRAG/ZOOM
   const candidateVessels = useMemo(
     () => getDeconflictedVessels(rawCandidateVessels),
     [rawCandidateVessels]
   );
 
-  // MEMOIZE STRING NORMALIZED CANDIDATE MMSI SET
   const candidateMmsiSet = useMemo(
     () => new Set(candidateVessels.map((c) => String(c.mmsi))),
     [candidateVessels]
   );
 
-  // MEMOIZE FILTERED BACKGROUND TRAFFIC
   const filteredBackgroundVessels = useMemo(
     () =>
       allVessels
@@ -345,7 +326,6 @@ function MapViewContent() {
     [allVessels, candidateMmsiSet]
   );
 
-  // MEMOIZE TRAJECTORY PATH ARRAYS
   const backwardPath = useMemo(
     () => backwardDrift?.trajectory?.map((p) => [p.lat, p.lon]) || [],
     [backwardDrift]
@@ -355,7 +335,6 @@ function MapViewContent() {
     [forwardDrift]
   );
 
-  // SELECTED VESSEL TRAJECTORY TRACK
   const selectedVesselTrack = useMemo(() => {
     if (!selectedVessel || !Array.isArray(selectedVessel.track)) return [];
     return selectedVessel.track
@@ -363,7 +342,6 @@ function MapViewContent() {
       .map((pt) => [pt.lat, pt.lon]);
   }, [selectedVessel]);
 
-  // ACTIVE SELECTED VESSEL (Defaults to Top Candidate #1 Red Vessel if none clicked)
   const activeVessel = useMemo(() => {
     return selectedVessel || attribution?.top_candidate || candidateVessels[0] || null;
   }, [selectedVessel, attribution, candidateVessels]);
@@ -380,12 +358,7 @@ function MapViewContent() {
 
   return (
     <div className="h-full w-full relative flex overflow-hidden bg-[#070a12]">
-      {/* ------------------------------------------------------------- */}
-      {/* FLOATABLE / DRAGGABLE LAYER CONTROL PANEL */}
-      {/* ------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------- */}
-      {/* FLOATABLE / DRAGGABLE LAYER CONTROL PANEL */}
-      {/* ------------------------------------------------------------- */}
+      
       {leftPanelOpen ? (
         <div
           style={{ left: `${panelPos.x}px`, top: `${panelPos.y}px` }}
@@ -393,7 +366,7 @@ function MapViewContent() {
             isDragging ? "scale-[1.01] cursor-grabbing" : ""
           }`}
         >
-          {/* Drag Handle Bar Header */}
+          
           <div
             onMouseDown={handleDragStart}
             onTouchStart={handleDragStart}
@@ -415,7 +388,6 @@ function MapViewContent() {
             </button>
           </div>
 
-          {/* Dynamic Slick Recenter Button */}
           <button
             onClick={focusSlickArea}
             className="w-full mb-3 py-2 px-3 rounded-lg bg-[var(--bg-card-elevated)] hover:bg-[var(--bg-card)] text-[var(--text-primary)] text-xs font-bold font-mono border border-[var(--border-color)] transition-colors cursor-pointer flex items-center justify-center gap-2"
@@ -423,7 +395,6 @@ function MapViewContent() {
             <Navigation className="w-4 h-4 text-[var(--text-secondary)]" /> RECENTER ON SLICK ANOMALY
           </button>
 
-          {/* Layer Toggles */}
           <div className="space-y-2 text-xs font-mono">
             <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
               <span className="flex items-center gap-2 text-[var(--text-primary)]">
@@ -486,7 +457,6 @@ function MapViewContent() {
             </label>
           </div>
 
-          {/* Tactical Telemetry Summary */}
           <div className="mt-4 pt-3 border-t border-[var(--border-color)] text-[11px] font-mono text-[var(--text-secondary)] space-y-1">
             <div className="flex justify-between">
               <span>Evaluated Candidates:</span>
@@ -503,7 +473,7 @@ function MapViewContent() {
           </div>
         </div>
       ) : (
-        /* FLOATABLE BUTTON WHEN COLLAPSED */
+        
         <div
           style={{ left: `${panelPos.x}px`, top: `${panelPos.y}px` }}
           className="absolute z-[1000] flex items-center shadow-md"
@@ -525,7 +495,6 @@ function MapViewContent() {
         </div>
       )}
 
-      {/* CENTRAL MAP CANVAS / 3D SPHERICAL GLOBE */}
       <div className="flex-1 h-full w-full relative">
         {loading && (
           <div className="absolute inset-0 z-[2000] bg-[#070a12]/90 backdrop-blur flex flex-col items-center justify-center p-6 text-center">
@@ -859,10 +828,9 @@ function MapViewContent() {
         </div>
       </div>
 
-      {/* RIGHT VESSEL DOSSIER DRAWER */}
       {selectedVessel && (
         <div className="absolute top-0 right-0 z-[1000] h-full w-full sm:w-96 md:w-[420px] glass-panel border-l border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] shadow-2xl flex flex-col justify-between overflow-hidden transition-all duration-300">
-          {/* Header */}
+          
           <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-card-elevated)] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono uppercase tracking-widest text-[var(--text-primary)] font-extrabold">
@@ -880,7 +848,6 @@ function MapViewContent() {
             </button>
           </div>
 
-          {/* Dossier Content Scrollable Area */}
           <div className="flex-1 overflow-y-auto p-5 space-y-5">
             <div className="flex items-start justify-between bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)]">
               <div>
@@ -901,7 +868,6 @@ function MapViewContent() {
               </div>
             </div>
 
-            {/* Commercial Voyage Route Telemetry Card */}
             <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-3 text-xs font-mono">
               <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
                 <span className="text-[var(--text-primary)] font-bold uppercase text-[10px] tracking-wider flex items-center gap-1.5">
@@ -1020,7 +986,6 @@ function MapViewContent() {
             )}
           </div>
 
-          {/* Dossier Bottom Action Bar */}
           <div className="p-4 border-t border-[var(--border-color)] bg-[var(--bg-card-elevated)] flex items-center justify-between gap-2 shrink-0">
             <button
               onClick={() => handleDispatchAlert(selectedVessel)}
@@ -1038,7 +1003,6 @@ function MapViewContent() {
         </div>
       )}
 
-      {/* DISPATCH ALERT CONFIRMATION MODAL DIALOG */}
       {dispatchAlertModal && (
         <div className="fixed inset-0 z-[3000] bg-black/60 flex items-center justify-center p-4">
           <div className="w-full max-w-lg bg-[var(--bg-card)] rounded-2xl p-6 space-y-5 shadow-xl relative border border-[var(--border-color)] text-[var(--text-primary)]">

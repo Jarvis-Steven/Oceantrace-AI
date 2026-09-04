@@ -31,7 +31,7 @@ export default function SettingsModal({ isOpen, onClose, isSimulated, setIsSimul
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
       <div className="w-full max-w-lg rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] p-6 shadow-2xl text-[var(--text-primary)]">
-        {/* Header */}
+        
         <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4 mb-5">
           <div className="flex items-center space-x-2.5">
             <Server className="w-5 h-5 text-[var(--text-primary)]" />
@@ -46,7 +46,7 @@ export default function SettingsModal({ isOpen, onClose, isSimulated, setIsSimul
         </div>
 
         <div className="space-y-6 text-sm">
-          {/* Theme Preference */}
+          
           <div className="flex items-center justify-between p-3.5 rounded-md border border-[var(--border-color)] bg-[var(--bg-card-elevated)]">
             <div>
               <div className="font-medium text-[var(--text-primary)]">Appearance Theme</div>
@@ -70,7 +70,6 @@ export default function SettingsModal({ isOpen, onClose, isSimulated, setIsSimul
             </button>
           </div>
 
-          {/* Operation Mode */}
           <div className="p-3.5 rounded-md border border-[var(--border-color)] bg-[var(--bg-card-elevated)] space-y-2">
             <div className="flex items-center justify-between">
               <div>
@@ -94,7 +93,6 @@ export default function SettingsModal({ isOpen, onClose, isSimulated, setIsSimul
             </div>
           </div>
 
-          {/* Backend Connection Health */}
           <div className="p-3.5 rounded-md border border-[var(--border-color)] bg-[var(--bg-card-elevated)] space-y-3">
             <div className="flex items-center justify-between">
               <span className="font-medium text-[var(--text-primary)]">FastAPI Backend Status</span>
@@ -126,7 +124,6 @@ export default function SettingsModal({ isOpen, onClose, isSimulated, setIsSimul
             </div>
           </div>
 
-          {/* System Information */}
           <div className="p-3.5 rounded-md border border-[var(--border-color)] bg-[var(--bg-card-elevated)] space-y-1.5 text-xs text-[var(--text-secondary)]">
             <div className="flex items-center justify-between">
               <span>Application Name</span>
@@ -149,7 +146,6 @@ export default function SettingsModal({ isOpen, onClose, isSimulated, setIsSimul
           </div>
         </div>
 
-        {/* Footer */}
         <div className="mt-6 flex justify-end">
           <button
             onClick={onClose}

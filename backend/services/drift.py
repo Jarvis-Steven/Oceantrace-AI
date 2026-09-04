@@ -9,20 +9,15 @@ from services.spill_detection import detect_spill
 MARINE_API = "https://marine-api.open-meteo.com/v1/marine"
 WEATHER_API = "https://api.open-meteo.com/v1/forecast"
 
-# Standard simplified oil-drift approximation:
-# drift velocity ≈ ocean current + WIND_FACTOR * wind velocity
 WIND_FACTOR = 0.03
 
-# How far ahead/back to project, and step size
 FORECAST_HOURS = 48
 STEP_HOURS = 3
 
-KM_PER_DEG_LAT = 111.0  # approx, constant everywhere
-
+KM_PER_DEG_LAT = 111.0
 
 def _km_per_deg_lon(lat_deg):
     return 111.320 * math.cos(math.radians(lat_deg))
-
 
 def _load_demo_drift():
     demo_path = Path(__file__).resolve().parent.parent.parent / "sample_data" / "demo" / "incident.json"
@@ -34,7 +29,6 @@ def _load_demo_drift():
         except Exception:
             pass
     return None, None
-
 
 def _fetch_ocean_current(lat, lon):
     params = {
@@ -48,7 +42,6 @@ def _fetch_ocean_current(lat, lon):
     resp.raise_for_status()
     return resp.json()
 
-
 def _fetch_wind(lat, lon):
     params = {
         "latitude": lat,
@@ -61,7 +54,6 @@ def _fetch_wind(lat, lon):
     resp.raise_for_status()
     return resp.json()
 
-
 def _dir_speed_to_uv(speed, direction_deg):
     """
     Convert direction (degrees clockwise from north) + speed into u (east) / v (north) components.
@@ -72,13 +64,11 @@ def _dir_speed_to_uv(speed, direction_deg):
     v = -speed * math.cos(theta)
     return u, v
 
-
 def _nearest_hour_index(times, target_iso_prefix):
     for i, t in enumerate(times):
         if t.startswith(target_iso_prefix):
             return i
     return 0
-
 
 def predict_drift(lat=None, lon=None, hours=FORECAST_HOURS, direction="forward", simulate=False):
     """
@@ -123,7 +113,7 @@ def predict_drift(lat=None, lon=None, hours=FORECAST_HOURS, direction="forward",
         marine_data = _fetch_ocean_current(lat, lon)
         wind_data = _fetch_wind(lat, lon)
     except Exception as e:
-        # Fallback to simulated drift calculation on API failure
+
         demo_drift, demo_env = _load_demo_drift()
         if demo_drift:
             traj_key = "backward_trajectory" if direction == "backward" else "forward_trajectory"
@@ -185,10 +175,9 @@ def predict_drift(lat=None, lon=None, hours=FORECAST_HOURS, direction="forward",
         cu, cv = _dir_speed_to_uv(current_speed_kmh, current_dir)
         wu, wv = _dir_speed_to_uv(wind_speed_kmh, wind_dir)
 
-        drift_u = cu + WIND_FACTOR * wu  # km/h, east
-        drift_v = cv + WIND_FACTOR * wv  # km/h, north
+        drift_u = cu + WIND_FACTOR * wu
+        drift_v = cv + WIND_FACTOR * wv
 
-        # Reverse drift vector for backward hindcast
         multiplier = -1 if direction == "backward" else 1
 
         delta_lat = (multiplier * drift_v * STEP_HOURS) / KM_PER_DEG_LAT
@@ -221,7 +210,6 @@ def predict_drift(lat=None, lon=None, hours=FORECAST_HOURS, direction="forward",
             f"{WIND_FACTOR * 100:.0f}% of wind velocity. Prototype decision support only."
         ),
     }
-
 
 def detect_drift():
     """Backward compatibility helper."""

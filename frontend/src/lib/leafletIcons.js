@@ -1,6 +1,5 @@
 import L from "leaflet";
 
-// Fix standard Leaflet default icon asset resolution in Vite
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -9,7 +8,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-// Standard background vessel marker (cyan/blue)
 export const normalVesselIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -19,7 +17,6 @@ export const normalVesselIcon = new L.Icon({
   shadowSize: [36, 36],
 });
 
-// Primary candidate vessel marker (gold/amber)
 export const candidateVesselIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -29,7 +26,6 @@ export const candidateVesselIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-// Top-ranked candidate vessel marker (red warning)
 export const topCandidateVesselIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -39,7 +35,6 @@ export const topCandidateVesselIcon = new L.Icon({
   shadowSize: [45, 45],
 });
 
-// Secondary candidate vessel marker (orange)
 export const secondaryCandidateIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",

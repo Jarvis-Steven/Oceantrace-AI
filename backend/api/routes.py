@@ -7,21 +7,17 @@ from services.ais import get_ais_data
 
 router = APIRouter(prefix="/api")
 
-
 @router.get("/evidence")
 def evidence(simulate: bool = False):
     return collect_evidence(simulate=simulate)
-
 
 @router.get("/attribution")
 def attribution(simulate: bool = False, radius_km: float = 75.0):
     return attribute_source(proximity_radius_km=radius_km, simulate=simulate)
 
-
 @router.get("/spill-detection")
 def spill_detection(simulate: bool = False):
     return detect_spill(simulate=simulate)
-
 
 @router.get("/drift")
 def drift(
@@ -32,7 +28,6 @@ def drift(
     simulate: bool = False,
 ):
     return predict_drift(lat=lat, lon=lon, hours=hours, direction=direction, simulate=simulate)
-
 
 @router.get("/ais")
 def ais(simulate: bool = False):

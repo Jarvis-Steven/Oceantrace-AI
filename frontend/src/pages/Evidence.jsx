@@ -22,9 +22,8 @@ function Evidence() {
   const simulate = context.isSimulated ?? true;
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedDoc, setSelectedDoc] = useState("dossier"); // "dossier" | "sar" | "ais" | "drift"
+  const [selectedDoc, setSelectedDoc] = useState("dossier");
 
-  // Dispatch Alert Modal State
   const [dispatchAlertModal, setDispatchAlertModal] = useState(null);
 
   useEffect(() => {
@@ -85,9 +84,9 @@ function Evidence() {
 
   return (
     <div className="h-full w-full overflow-y-auto bg-[var(--bg-main)] text-[var(--text-primary)] p-4 sm:p-6 space-y-6 font-sans">
-      {/* SCREEN-ONLY UI WRAPPER */}
+      
       <div className="space-y-6 print-hide">
-      {/* Top Action Header */}
+      
       <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] font-extrabold text-xl">
@@ -108,7 +107,6 @@ function Evidence() {
           </div>
         </div>
 
-        {/* Header Action Buttons */}
         <div className="flex flex-wrap items-center gap-3 font-mono">
           <button
             onClick={handleExportJson}
@@ -125,14 +123,13 @@ function Evidence() {
         </div>
       </div>
 
-      {/* Main Grid: Document Sidebar List + Document Viewer */}
       {loading ? (
         <div className="py-20 text-center font-mono text-sm text-[var(--text-muted)]">
           Fetching forensic dossier files & satellite telemetry logs...
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column: DOCUMENT ARCHIVE LIST */}
+          
           <div className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 space-y-4 shadow-sm">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-muted)] border-b border-[var(--border-color)] pb-2">
               SELECT DOCUMENT TO INSPECT
@@ -221,9 +218,8 @@ function Evidence() {
             </div>
           </div>
 
-          {/* Right Column: DYNAMIC DOCUMENT VIEWER */}
           <div className="lg:col-span-8 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 space-y-6 shadow-sm relative">
-            {/* DOCUMENT 1: MAIN INCIDENT DOSSIER */}
+            
             {selectedDoc === "dossier" && (
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -247,7 +243,6 @@ function Evidence() {
                   </div>
                 </div>
 
-                {/* Section 1: Executive Summary */}
                 <div className="space-y-2">
                   <h3 className="text-xs font-mono font-extrabold uppercase tracking-wider text-[var(--text-primary)] border-b border-[var(--border-color)] pb-1">
                     1. EXECUTIVE SUMMARY & FORENSIC RATIONALE
@@ -257,7 +252,6 @@ function Evidence() {
                   </p>
                 </div>
 
-                {/* Section 2: Suspect Candidate Intelligence */}
                 <div className="space-y-3 font-mono text-xs">
                   <h3 className="text-xs font-mono font-extrabold uppercase tracking-wider text-[var(--text-primary)] border-b border-[var(--border-color)] pb-1">
                     2. PRIMARY SUSPECT VESSEL INTELLIGENCE
@@ -284,7 +278,6 @@ function Evidence() {
               </>
             )}
 
-            {/* DOCUMENT 2: SAR SLICK DETECTION SDR-2026 */}
             {selectedDoc === "sar" && (
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex items-center justify-between">
@@ -330,7 +323,6 @@ function Evidence() {
               </>
             )}
 
-            {/* DOCUMENT 3: AIS SPEED ANOMALY REPORT */}
             {selectedDoc === "ais" && (
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex items-center justify-between">
@@ -406,7 +398,6 @@ function Evidence() {
               </>
             )}
 
-            {/* DOCUMENT 4: ADVECTION & DRIFT HINDCAST */}
             {selectedDoc === "drift" && (
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex items-center justify-between">
@@ -488,7 +479,6 @@ function Evidence() {
               </>
             )}
 
-            {/* Bottom Action Toolbar */}
             <div className="pt-4 border-t border-[var(--border-color)] flex flex-wrap items-center justify-between gap-3 font-mono">
               <button
                 onClick={handlePrint}
@@ -514,11 +504,8 @@ function Evidence() {
       )}
       </div>
 
-      {/* ================================================================== */}
-      {/* OFFICIAL LEGAL MARITIME INCIDENT REPORT (PRINT / SAVE PDF ONLY) */}
-      {/* ================================================================== */}
       <div className="official-print-report hidden print:block bg-white text-slate-900 p-8 font-sans">
-        {/* Official Header Crest / IMO Seal & Document Title */}
+        
         <div className="border-b-2 border-slate-900 pb-5 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -548,7 +535,6 @@ function Evidence() {
           </div>
         </div>
 
-        {/* Section 1: Executive Summary */}
         <div className="mb-6 space-y-2">
           <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
             SECTION I: EXECUTIVE INCIDENT OVERVIEW & SAR DETECTION
@@ -558,7 +544,6 @@ function Evidence() {
           </p>
         </div>
 
-        {/* Section 2: Primary Suspect Vessel Particulars */}
         <div className="mb-6 space-y-3">
           <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
             SECTION II: PRIMARY SUSPECT VESSEL IDENTIFICATION
@@ -593,7 +578,6 @@ function Evidence() {
           </table>
         </div>
 
-        {/* Section 3: Multi-Factor Evidence Scoring Breakdown */}
         <div className="mb-6 space-y-3">
           <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
             SECTION III: MULTI-FACTOR ATTRIBUTION METRICS
@@ -626,7 +610,6 @@ function Evidence() {
           </table>
         </div>
 
-        {/* Section 4: Top Evaluated Candidate Vessels Directory */}
         <div className="mb-6 space-y-3">
           <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
             SECTION IV: EVALUATED CANDIDATE DIRECTORY (TOP 5 SUSPECTS)
@@ -657,7 +640,6 @@ function Evidence() {
           </table>
         </div>
 
-        {/* Section 5: Official Legal Certification & Signatures */}
         <div className="mt-8 pt-6 border-t-2 border-slate-900 space-y-6">
           <div className="text-xs text-slate-700 italic leading-relaxed">
             "I hereby certify that the satellite remote sensing backscatter analysis and AIS trajectory advection models contained in this audit dossier were executed in accordance with IMO MARPOL Annex I environmental enforcement protocols. The data herein represents an authenticated legal record."
@@ -687,11 +669,10 @@ function Evidence() {
         </div>
       </div>
 
-      {/* DISPATCH ALERT CONFIRMATION MODAL DIALOG */}
       {dispatchAlertModal && (
         <div className="fixed inset-0 z-[3000] bg-black/60 flex items-center justify-center p-4">
           <div className="w-full max-w-lg bg-[var(--bg-card)] rounded-2xl p-6 space-y-5 shadow-xl relative border border-[var(--border-color)] text-[var(--text-primary)]">
-            {/* Modal Header */}
+            
             <div className="flex items-start justify-between border-b border-[var(--border-color)] pb-3">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] text-xl font-bold">
@@ -714,7 +695,6 @@ function Evidence() {
               </button>
             </div>
 
-            {/* Alert Status Pill */}
             <div className="p-3.5 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-xs font-mono space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-[var(--text-primary)] font-bold flex items-center gap-1.5">
