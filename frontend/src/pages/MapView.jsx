@@ -423,8 +423,8 @@ function MapViewContent() {
           </button>
 
           {/* Unified Pipeline Status Indicator */}
-          <div className="mb-3 bg-[#070a12] p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between">
-            <span className="text-xs text-slate-300 font-mono">Data Pipeline:</span>
+          <div className="mb-3 bg-[var(--bg-card-elevated)] p-2.5 rounded-xl border border-[var(--border-color)] flex items-center justify-between">
+            <span className="text-xs text-[var(--text-secondary)] font-mono">Data Pipeline:</span>
             <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               LIVE SAR & AIS STREAM
@@ -433,8 +433,8 @@ function MapViewContent() {
 
           {/* Layer Toggles */}
           <div className="space-y-2 text-xs font-mono">
-            <label className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 cursor-pointer hover:border-slate-700">
-              <span className="flex items-center gap-2 text-slate-200">
+            <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
+              <span className="flex items-center gap-2 text-[var(--text-primary)]">
                 <span className="h-2.5 w-2.5 rounded-full bg-rose-500" /> SAR Slick Bounding Box
               </span>
               <input
@@ -445,8 +445,8 @@ function MapViewContent() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 cursor-pointer hover:border-slate-700">
-              <span className="flex items-center gap-2 text-cyan-300">
+            <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
+              <span className="flex items-center gap-2 text-cyan-400">
                 <span className="h-2.5 w-2.5 rounded-full bg-cyan-400" /> Backward Origin Corridor
               </span>
               <input
@@ -457,8 +457,8 @@ function MapViewContent() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 cursor-pointer hover:border-slate-700">
-              <span className="flex items-center gap-2 text-amber-300">
+            <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
+              <span className="flex items-center gap-2 text-amber-400">
                 <span className="h-2.5 w-2.5 rounded-full bg-amber-400" /> Forward Drift Forecast
               </span>
               <input
@@ -469,8 +469,8 @@ function MapViewContent() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 cursor-pointer hover:border-slate-700">
-              <span className="flex items-center gap-2 text-pink-300">
+            <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
+              <span className="flex items-center gap-2 text-pink-400">
                 <span className="h-2.5 w-2.5 rounded-full bg-pink-500" /> Ship Trajectory Routes
               </span>
               <input
@@ -481,8 +481,8 @@ function MapViewContent() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 cursor-pointer hover:border-slate-700">
-              <span className="flex items-center gap-2 text-slate-300">
+            <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
+              <span className="flex items-center gap-2 text-[var(--text-secondary)]">
                 <span className="h-2.5 w-2.5 rounded-full bg-blue-500" /> Background AIS Traffic
               </span>
               <input
