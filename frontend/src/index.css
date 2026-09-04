@@ -153,8 +153,7 @@
 .glass-panel {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Official Print Stylesheet */

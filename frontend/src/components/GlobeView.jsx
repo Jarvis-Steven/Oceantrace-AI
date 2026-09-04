@@ -402,7 +402,7 @@ export default function GlobeView({
       {/* Telemetry Status Badge */}
       <div className="absolute bottom-6 left-6 z-[1000] glass-panel px-3.5 py-2 rounded-xl border border-slate-800 text-[11px] font-mono text-slate-300 flex items-center gap-3">
         <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
-          <GlobeIcon className="w-4 h-4 text-cyan-400 animate-pulse" /> 3D SPHERICAL GLOBE PROJECTION (60 FPS)
+          <GlobeIcon className="w-4 h-4 text-cyan-400" /> 3D SPHERICAL GLOBE PROJECTION (60 FPS)
         </span>
         <span className="text-slate-500">|</span>
         <span>Drag to rotate &bull; Scroll to zoom</span>

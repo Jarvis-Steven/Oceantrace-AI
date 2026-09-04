@@ -417,16 +417,16 @@ function MapViewContent() {
           {/* Dynamic Slick Recenter Button */}
           <button
             onClick={focusSlickArea}
-            className="w-full mb-3 py-2 px-3 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 text-xs font-bold font-mono border border-cyan-500/40 transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 shadow-lg"
+            className="w-full mb-3 py-2 px-3 rounded-lg bg-[var(--bg-card-elevated)] hover:bg-[var(--bg-card)] text-[var(--text-primary)] text-xs font-bold font-mono border border-[var(--border-color)] transition-colors cursor-pointer flex items-center justify-center gap-2"
           >
-            <Navigation className="w-4 h-4 text-cyan-400 animate-pulse" /> RECENTER ON SLICK ANOMALY
+            <Navigation className="w-4 h-4 text-cyan-500" /> RECENTER ON SLICK ANOMALY
           </button>
 
           {/* Unified Pipeline Status Indicator */}
           <div className="mb-3 bg-[var(--bg-card-elevated)] p-2.5 rounded-xl border border-[var(--border-color)] flex items-center justify-between">
             <span className="text-xs text-[var(--text-secondary)] font-mono">Data Pipeline:</span>
             <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
               LIVE SAR & AIS STREAM
             </span>
           </div>

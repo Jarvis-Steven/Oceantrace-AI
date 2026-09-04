@@ -143,7 +143,7 @@ function Evidence() {
                 onClick={() => setSelectedDoc("dossier")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "dossier"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
                     : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
@@ -163,7 +163,7 @@ function Evidence() {
                 onClick={() => setSelectedDoc("sar")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "sar"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
                     : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
@@ -183,7 +183,7 @@ function Evidence() {
                 onClick={() => setSelectedDoc("ais")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "ais"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
                     : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
@@ -203,7 +203,7 @@ function Evidence() {
                 onClick={() => setSelectedDoc("drift")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "drift"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
                     : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
