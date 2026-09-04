@@ -88,17 +88,17 @@ function Evidence() {
       {/* SCREEN-ONLY UI WRAPPER */}
       <div className="space-y-6 print-hide">
       {/* Top Action Header */}
-      <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xl">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-extrabold text-xl">
-            <FileText className="w-5 h-5 text-cyan-400" />
+          <div className="h-10 w-10 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] font-extrabold text-xl">
+            <FileText className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2 font-mono">
-              <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">
+              <span className="text-xs font-extrabold text-[var(--text-primary)] uppercase tracking-widest">
                 DOCUMENT ARCHIVE & EVIDENCE FILE
               </span>
-              <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-[var(--bg-card-elevated)] text-emerald-700 dark:text-emerald-400 border border-[var(--border-color)] font-bold">
                 ● CASE FILE VERIFIED
               </span>
             </div>
@@ -109,18 +109,18 @@ function Evidence() {
         </div>
 
         {/* Header Action Buttons */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 font-mono">
           <button
             onClick={handleExportJson}
-            className="px-3.5 py-2 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3.5 py-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-[var(--text-primary)] hover:bg-[var(--bg-card)] text-xs font-mono font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
           >
-            <Download className="w-4 h-4 text-cyan-400" /> Export JSON
+            <Download className="w-4 h-4" /> Export JSON
           </button>
           <button
             onClick={handlePrint}
-            className="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-600 dark:text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-xs font-mono font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
           >
-            <Printer className="w-4 h-4 text-cyan-400" /> Print / Save PDF
+            <Printer className="w-4 h-4" /> Print / Save PDF
           </button>
         </div>
       </div>
@@ -133,7 +133,7 @@ function Evidence() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column: DOCUMENT ARCHIVE LIST */}
-          <div className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 space-y-4 shadow-xl">
+          <div className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 space-y-4 shadow-sm">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-muted)] border-b border-[var(--border-color)] pb-2">
               SELECT DOCUMENT TO INSPECT
             </h3>
@@ -143,18 +143,18 @@ function Evidence() {
                 onClick={() => setSelectedDoc("dossier")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "dossier"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
-                    : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--bg-card-elevated)] border-2 border-[var(--text-primary)] text-[var(--text-primary)] font-extrabold"
+                    : "bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <FileText className="w-4 h-4 text-cyan-400" />
+                  <FileText className="w-4 h-4" />
                   <div>
                     <div className="font-bold">INCIDENT DOSSIER S1-2026-08</div>
                     <div className="text-[10px] text-[var(--text-muted)] font-sans">Full Case File & Attribution Rationale</div>
                   </div>
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="text-[9px] px-2 py-0.5 rounded bg-[var(--bg-card)] text-[var(--text-primary)] font-bold border border-[var(--border-color)]">
                   VERIFIED
                 </span>
               </div>
@@ -163,18 +163,18 @@ function Evidence() {
                 onClick={() => setSelectedDoc("sar")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "sar"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
-                    : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--bg-card-elevated)] border-2 border-[var(--text-primary)] text-[var(--text-primary)] font-extrabold"
+                    : "bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Satellite className="w-4 h-4 text-cyan-400" />
+                  <Satellite className="w-4 h-4" />
                   <div>
                     <div className="font-bold">SAR SLICK DETECTION SDR-2026</div>
                     <div className="text-[10px] text-[var(--text-muted)] font-sans">Sentinel-1 VV Backscatter Analysis</div>
                   </div>
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="text-[9px] px-2 py-0.5 rounded bg-[var(--bg-card)] text-[var(--text-primary)] font-bold border border-[var(--border-color)]">
                   VERIFIED
                 </span>
               </div>
@@ -183,18 +183,18 @@ function Evidence() {
                 onClick={() => setSelectedDoc("ais")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "ais"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
-                    : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--bg-card-elevated)] border-2 border-[var(--text-primary)] text-[var(--text-primary)] font-extrabold"
+                    : "bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Ship className="w-4 h-4 text-cyan-400" />
+                  <Ship className="w-4 h-4" />
                   <div>
                     <div className="font-bold">AIS SPEED ANOMALY REPORT</div>
                     <div className="text-[10px] text-[var(--text-muted)] font-sans">MV ARABIAN STAR Track & Speed Log</div>
                   </div>
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30">
+                <span className="text-[9px] px-2 py-0.5 rounded bg-[var(--bg-card)] text-[var(--text-primary)] font-bold border border-[var(--border-color)]">
                   PENDING REVIEW
                 </span>
               </div>
@@ -203,18 +203,18 @@ function Evidence() {
                 onClick={() => setSelectedDoc("drift")}
                 className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedDoc === "drift"
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 font-bold"
-                    : "bg-[var(--bg-card-elevated)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    ? "bg-[var(--bg-card-elevated)] border-2 border-[var(--text-primary)] text-[var(--text-primary)] font-extrabold"
+                    : "bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Waves className="w-4 h-4 text-cyan-400" />
+                  <Waves className="w-4 h-4" />
                   <div>
                     <div className="font-bold">ADVECTION & DRIFT HINDCAST</div>
                     <div className="text-[10px] text-[var(--text-muted)] font-sans">48h Origin Corridor Hydrodynamics</div>
                   </div>
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="text-[9px] px-2 py-0.5 rounded bg-[var(--bg-card)] text-[var(--text-primary)] font-bold border border-[var(--border-color)]">
                   VERIFIED
                 </span>
               </div>
@@ -222,14 +222,14 @@ function Evidence() {
           </div>
 
           {/* Right Column: DYNAMIC DOCUMENT VIEWER */}
-          <div className="lg:col-span-8 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 space-y-6 shadow-2xl relative">
+          <div className="lg:col-span-8 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 space-y-6 shadow-sm relative">
             {/* DOCUMENT 1: MAIN INCIDENT DOSSIER */}
             {selectedDoc === "dossier" && (
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] flex items-center justify-center text-cyan-400 text-2xl font-bold">
-                      <Anchor className="w-6 h-6 text-cyan-400" />
+                    <div className="h-12 w-12 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] text-2xl font-bold">
+                      <Anchor className="w-6 h-6" />
                     </div>
                     <div>
                       <div className="text-xs font-mono font-bold text-[var(--text-muted)] uppercase">
@@ -243,23 +243,23 @@ function Evidence() {
                   </div>
                   <div className="text-right font-mono">
                     <span className="text-[10px] text-[var(--text-muted)] uppercase">ATTRIBUTION STATUS</span>
-                    <div className="text-sm font-bold text-emerald-400">HIGH CONFIDENCE ATTRIBUTED</div>
+                    <div className="text-sm font-bold text-emerald-700 dark:text-emerald-400">HIGH CONFIDENCE ATTRIBUTED</div>
                   </div>
                 </div>
 
                 {/* Section 1: Executive Summary */}
                 <div className="space-y-2">
-                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 border-b border-[var(--border-color)] pb-1">
+                  <h3 className="text-xs font-mono font-extrabold uppercase tracking-wider text-[var(--text-primary)] border-b border-[var(--border-color)] pb-1">
                     1. EXECUTIVE SUMMARY & FORENSIC RATIONALE
                   </h3>
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)]">
-                    On {report?.timestamp || "2026-09-02"}, Copernicus Sentinel-1 Synthetic Aperture Radar (SAR) detected an illegal oil discharge anomaly covering ~{spill?.estimated_area_km2 || 46.0} km² in the Arabian Sea offshore shipping lane. Combining 48-hour backward ocean current hindcasting with Global Fishing Watch (GFW) AIS trajectory analysis, vessel <strong className="text-rose-400">{topCandidate?.shipName || "MV ARABIAN STAR"}</strong> (MMSI: {topCandidate?.mmsi || "419001234"}) has been identified as the primary source candidate with an overall attribution confidence score of <strong className="text-rose-400">{topCandidate?.attribution_score || 84.8}/100</strong>.
+                    On {report?.timestamp || "2026-09-02"}, Copernicus Sentinel-1 Synthetic Aperture Radar (SAR) detected an illegal oil discharge anomaly covering ~{spill?.estimated_area_km2 || 46.0} km² in the Arabian Sea offshore shipping lane. Combining 48-hour backward ocean current hindcasting with Global Fishing Watch (GFW) AIS trajectory analysis, vessel <strong className="text-rose-600 dark:text-rose-400 font-extrabold">{topCandidate?.shipName || "MV ARABIAN STAR"}</strong> (MMSI: {topCandidate?.mmsi || "419001234"}) has been identified as the primary source candidate with an overall attribution confidence score of <strong className="text-rose-600 dark:text-rose-400 font-extrabold">{topCandidate?.attribution_score || 84.8}/100</strong>.
                   </p>
                 </div>
 
                 {/* Section 2: Suspect Candidate Intelligence */}
                 <div className="space-y-3 font-mono text-xs">
-                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 border-b border-[var(--border-color)] pb-1">
+                  <h3 className="text-xs font-mono font-extrabold uppercase tracking-wider text-[var(--text-primary)] border-b border-[var(--border-color)] pb-1">
                     2. PRIMARY SUSPECT VESSEL INTELLIGENCE
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -273,11 +273,11 @@ function Evidence() {
                     </div>
                     <div className="bg-[var(--bg-card-elevated)] p-3 rounded-xl border border-[var(--border-color)]">
                       <span className="text-[10px] text-[var(--text-muted)] uppercase">Vessel Type</span>
-                      <p className="font-bold text-cyan-400 mt-0.5">{topCandidate?.vesselType}</p>
+                      <p className="font-bold text-[var(--text-primary)] mt-0.5">{topCandidate?.vesselType}</p>
                     </div>
                     <div className="bg-[var(--bg-card-elevated)] p-3 rounded-xl border border-[var(--border-color)]">
                       <span className="text-[10px] text-[var(--text-muted)] uppercase">Fusion Score</span>
-                      <p className="font-bold text-rose-400 text-sm mt-0.5">{topCandidate?.attribution_score}/100</p>
+                      <p className="font-bold text-rose-600 dark:text-rose-400 text-sm mt-0.5">{topCandidate?.attribution_score}/100</p>
                     </div>
                   </div>
                 </div>
@@ -289,7 +289,7 @@ function Evidence() {
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-mono font-bold text-cyan-400 uppercase">
+                    <div className="text-xs font-mono font-bold text-[var(--text-secondary)] uppercase">
                       SATELLITE REMOTE SENSING DATASET
                     </div>
                     <h2 className="text-lg font-extrabold text-[var(--text-primary)] font-mono">
@@ -297,7 +297,7 @@ function Evidence() {
                     </h2>
                     <p className="text-xs text-[var(--text-secondary)] font-mono mt-0.5">Sensor: Sentinel-1 C-Band SAR (IW Mode, VV Polarization)</p>
                   </div>
-                  <span className="text-xs font-mono px-3 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
+                  <span className="text-xs font-mono px-3 py-1 rounded bg-[var(--bg-card)] text-[var(--text-primary)] font-bold border border-[var(--border-color)]">
                     STATUS: VERIFIED
                   </span>
                 </div>
@@ -313,16 +313,16 @@ function Evidence() {
                   </div>
                   <div className="bg-[var(--bg-card-elevated)] p-3 rounded-xl border border-[var(--border-color)]">
                     <span className="text-[10px] text-[var(--text-muted)] uppercase">Radar Darkness</span>
-                    <p className="font-bold text-rose-400 mt-0.5">{spill?.mean_local_darkness_db} dB</p>
+                    <p className="font-bold text-rose-600 dark:text-rose-400 mt-0.5">{spill?.mean_local_darkness_db} dB</p>
                   </div>
                   <div className="bg-[var(--bg-card-elevated)] p-3 rounded-xl border border-[var(--border-color)]">
                     <span className="text-[10px] text-[var(--text-muted)] uppercase">Wind Speed</span>
-                    <p className="font-bold text-cyan-400 mt-0.5">4.2 m/s (Favorable)</p>
+                    <p className="font-bold text-[var(--text-primary)] mt-0.5">4.2 m/s (Favorable)</p>
                   </div>
                 </div>
 
                 <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-2 text-xs">
-                  <span className="text-cyan-400 font-mono font-bold uppercase">SAR BACKSCATTER SPECTRUM ANALYSIS</span>
+                  <span className="text-[var(--text-primary)] font-mono font-bold uppercase">SAR BACKSCATTER SPECTRUM ANALYSIS</span>
                   <p className="text-[var(--text-secondary)] leading-relaxed text-[11px]">
                     The C-Band SAR radar backscatter signal exhibits a pronounced -7.4 dB drop relative to ambient ocean background clutter. The high boundary damping ratio and continuous geometry confirm biogenic/mineral oil damping of capillary ocean waves rather than wind-shear lookalikes.
                   </p>
@@ -335,7 +335,7 @@ function Evidence() {
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-mono font-bold text-amber-400 uppercase">
+                    <div className="text-xs font-mono font-bold text-[var(--text-secondary)] uppercase">
                       AIS TELEMETRY & BEHAVIOURAL LOG
                     </div>
                     <h2 className="text-lg font-extrabold text-[var(--text-primary)] font-mono">
@@ -343,7 +343,7 @@ function Evidence() {
                     </h2>
                     <p className="text-xs text-[var(--text-secondary)] font-mono mt-0.5">Target: MV ARABIAN STAR (MMSI: 419001234)</p>
                   </div>
-                  <span className="text-xs font-mono px-3 py-1 rounded bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30">
+                  <span className="text-xs font-mono px-3 py-1 rounded bg-[var(--bg-card)] text-[var(--text-primary)] font-bold border border-[var(--border-color)]">
                     ANOMALY DETECTED
                   </span>
                 </div>
@@ -369,26 +369,26 @@ function Evidence() {
                           <td className="p-2.5">069°55.0'E</td>
                           <td className="p-2.5">14.5</td>
                           <td className="p-2.5">135°</td>
-                          <td className="p-2.5 text-emerald-400">Normal Transit</td>
+                          <td className="p-2.5 text-emerald-700 dark:text-emerald-400 font-bold">Normal Transit</td>
                         </tr>
-                        <tr className="bg-rose-500/10 text-rose-400 font-bold">
+                        <tr className="bg-[var(--bg-card)] text-rose-600 dark:text-rose-400 font-bold">
                           <td className="p-2.5">15:30:00</td>
                           <td className="p-2.5">09°24.5'N</td>
                           <td className="p-2.5">069°70.1'E</td>
                           <td className="p-2.5">8.1</td>
                           <td className="p-2.5">135°</td>
                           <td className="p-2.5 flex items-center gap-1">
-                            <AlertTriangle className="w-3.5 h-3.5 text-rose-400" /> Speed Drop (Anomaly)
+                            <AlertTriangle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" /> Speed Drop (Anomaly)
                           </td>
                         </tr>
-                        <tr className="bg-rose-500/10 text-rose-400 font-bold">
+                        <tr className="bg-[var(--bg-card)] text-rose-600 dark:text-rose-400 font-bold">
                           <td className="p-2.5">16:15:00</td>
                           <td className="p-2.5">09°28.4'N</td>
                           <td className="p-2.5">069°78.2'E</td>
                           <td className="p-2.5">7.5</td>
                           <td className="p-2.5">138°</td>
                           <td className="p-2.5 flex items-center gap-1">
-                            <AlertTriangle className="w-3.5 h-3.5 text-rose-400" /> Loitering / Discharge Window
+                            <AlertTriangle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" /> Loitering / Discharge Window
                           </td>
                         </tr>
                         <tr>
@@ -411,7 +411,7 @@ function Evidence() {
               <>
                 <div className="bg-[var(--bg-card-elevated)] border border-[var(--border-color)] rounded-xl p-5 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-mono font-bold text-cyan-400 uppercase">
+                    <div className="text-xs font-mono font-bold text-[var(--text-secondary)] uppercase">
                       HYDRODYNAMIC ADVECTION & DRIFT REPORT
                     </div>
                     <h2 className="text-lg font-extrabold text-[var(--text-primary)] font-mono">
@@ -419,7 +419,7 @@ function Evidence() {
                     </h2>
                     <p className="text-xs text-[var(--text-secondary)] font-mono mt-0.5">Model: Simplified Ocean Current + 3% Surface Wind Vector</p>
                   </div>
-                  <span className="text-xs font-mono px-3 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
+                  <span className="text-xs font-mono px-3 py-1 rounded bg-[var(--bg-card)] text-[var(--text-primary)] font-bold border border-[var(--border-color)]">
                     STATUS: VERIFIED
                   </span>
                 </div>
@@ -435,12 +435,12 @@ function Evidence() {
                   </div>
                   <div className="bg-[var(--bg-card-elevated)] p-3 rounded-xl border border-[var(--border-color)]">
                     <span className="text-[10px] text-[var(--text-muted)] uppercase">Net Drift Speed</span>
-                    <p className="font-bold text-cyan-400 mt-0.5">1.405 km/h SE</p>
+                    <p className="font-bold text-[var(--text-primary)] mt-0.5">1.405 km/h SE</p>
                   </div>
                 </div>
 
                 <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-3 font-mono text-xs">
-                  <span className="text-cyan-400 font-bold uppercase">RECONSTRUCTED ORIGIN CORRIDOR TRAJECTORY NODES</span>
+                  <span className="text-[var(--text-primary)] font-bold uppercase">RECONSTRUCTED ORIGIN CORRIDOR TRAJECTORY NODES</span>
                   <div className="overflow-x-auto rounded-lg border border-[var(--border-color)]">
                     <table className="w-full text-left text-[11px]">
                       <thead className="bg-[var(--bg-card)] text-[var(--text-muted)] uppercase">
@@ -454,7 +454,7 @@ function Evidence() {
                       </thead>
                       <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-secondary)]">
                         <tr>
-                          <td className="p-2.5 font-bold text-cyan-400">0h (Spill Detection)</td>
+                          <td className="p-2.5 font-bold text-[var(--text-primary)]">0h (Spill Detection)</td>
                           <td className="p-2.5">2026-09-02 06:00</td>
                           <td className="p-2.5">09.5000°N</td>
                           <td className="p-2.5">070.0000°E</td>
@@ -467,7 +467,7 @@ function Evidence() {
                           <td className="p-2.5">069.9300°E</td>
                           <td className="p-2.5">11.0 km</td>
                         </tr>
-                        <tr className="bg-cyan-500/10 text-cyan-400 font-bold">
+                        <tr className="bg-[var(--bg-card)] text-[var(--text-primary)] font-extrabold">
                           <td className="p-2.5">-18h (Intersects MV ARABIAN STAR)</td>
                           <td className="p-2.5">2026-09-01 12:00</td>
                           <td className="p-2.5">09.2900°N</td>
@@ -492,21 +492,21 @@ function Evidence() {
             <div className="pt-4 border-t border-[var(--border-color)] flex flex-wrap items-center justify-between gap-3 font-mono">
               <button
                 onClick={handlePrint}
-                className="px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-600 dark:text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
               >
-                <Printer className="w-4 h-4 text-cyan-400" /> Download PDF ({selectedDoc.toUpperCase()})
+                <Printer className="w-4 h-4" /> Download PDF ({selectedDoc.toUpperCase()})
               </button>
               <button
                 onClick={handleDispatchCoastGuardAlert}
-                className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-600 dark:text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all shadow-lg active:scale-95 flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5 cursor-pointer"
               >
-                <ShieldAlert className="w-4 h-4 text-emerald-400" /> Dispatch to Coast Guard
+                <ShieldAlert className="w-4 h-4 text-white" /> Dispatch to Coast Guard
               </button>
               <button
                 onClick={handleExportJson}
-                className="px-4 py-2 rounded-xl bg-[var(--bg-card-elevated)] hover:bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-color)] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-[var(--bg-card-elevated)] hover:bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border-color)] text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
               >
-                <Share2 className="w-4 h-4 text-[var(--text-muted)]" /> Share Document
+                <Share2 className="w-4 h-4" /> Share Document
               </button>
             </div>
           </div>
@@ -689,48 +689,48 @@ function Evidence() {
 
       {/* DISPATCH ALERT CONFIRMATION MODAL DIALOG */}
       {dispatchAlertModal && (
-        <div className="fixed inset-0 z-[3000] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-lg glass-panel-accent rounded-2xl p-6 space-y-5 shadow-2xl relative border border-emerald-500/40">
+        <div className="fixed inset-0 z-[3000] bg-black/60 flex items-center justify-center p-4">
+          <div className="w-full max-w-lg bg-[var(--bg-card)] rounded-2xl p-6 space-y-5 shadow-xl relative border border-[var(--border-color)] text-[var(--text-primary)]">
             {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-start justify-between border-b border-[var(--border-color)] pb-3">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl font-bold">
-                  <Radio className="w-5 h-5 text-emerald-400" />
+                <div className="h-10 w-10 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] text-xl font-bold">
+                  <Radio className="w-5 h-5 text-[var(--text-primary)]" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold tracking-wider">
+                  <span className="text-[10px] font-mono uppercase text-[var(--text-secondary)] font-bold tracking-wider">
                     TACTICAL MARITIME INTERCEPT ALERT
                   </span>
-                  <h3 className="text-base font-extrabold text-slate-100 font-mono">
+                  <h3 className="text-base font-extrabold text-[var(--text-primary)] font-mono">
                     ALERT TRANSMITTED TO COAST GUARD
                   </h3>
                 </div>
               </div>
               <button
                 onClick={() => setDispatchAlertModal(null)}
-                className="text-slate-400 hover:text-slate-100 text-xs font-mono p-1 rounded"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-mono p-1 rounded hover:bg-[var(--bg-card-elevated)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Alert Status Pill */}
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono space-y-1">
+            <div className="p-3.5 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-xs font-mono space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-emerald-400 font-bold flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  STATUS: SUCCESS
+                <span className="text-[var(--text-primary)] font-bold flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  STATUS: SUCCESS TRANSMITTED
                 </span>
-                <span className="text-slate-400">{dispatchAlertModal.dispatchId}</span>
+                <span className="text-[var(--text-secondary)]">{dispatchAlertModal.dispatchId}</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[11px] text-[var(--text-secondary)]">
                 {dispatchAlertModal.status}
               </p>
             </div>
 
-            <div className="bg-[#070a12] p-4 rounded-xl border border-slate-800 space-y-2 text-xs font-mono">
-              <span className="text-slate-400 uppercase text-[10px] font-bold">Transmitted Payload Data</span>
-              <div className="grid grid-cols-2 gap-2 text-slate-300">
+            <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-2 text-xs font-mono">
+              <span className="text-[var(--text-secondary)] uppercase text-[10px] font-bold">Transmitted Payload Data</span>
+              <div className="grid grid-cols-2 gap-2 text-[var(--text-primary)]">
                 <div><strong>Target Vessel:</strong> {dispatchAlertModal.vesselName}</div>
                 <div><strong>MMSI:</strong> {dispatchAlertModal.mmsi}</div>
                 <div><strong>Flag State:</strong> {dispatchAlertModal.flag}</div>
@@ -738,7 +738,7 @@ function Evidence() {
                 <div><strong>Dist to Slick:</strong> {dispatchAlertModal.distanceKm} km</div>
                 <div><strong>Corridor Offset:</strong> {dispatchAlertModal.corridorOffsetKm} km</div>
               </div>
-              <div className="pt-2 text-[10px] text-slate-500 border-t border-slate-800/80">
+              <div className="pt-2 text-[10px] text-[var(--text-muted)] border-t border-[var(--border-color)]">
                 Recipient: Indian Coast Guard Maritime Operational Centre (MOC Mumbai / Kochi) &bull; Timestamp: {dispatchAlertModal.timestamp}
               </div>
             </div>
@@ -746,7 +746,7 @@ function Evidence() {
             <div className="flex justify-end gap-3 font-mono">
               <button
                 onClick={() => setDispatchAlertModal(null)}
-                className="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-xs font-bold transition-all cursor-pointer"
               >
                 Acknowledge Alert Transmission
               </button>

@@ -364,26 +364,26 @@ export default function GlobeView({
 
   if (!webglSupported) {
     return (
-      <div className="h-full w-full flex flex-col items-center justify-center bg-[#070a12] p-6 text-center">
-        <div className="h-14 w-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-4">
-          <AlertTriangle className="w-7 h-7 text-amber-400" />
+      <div className="h-full w-full flex flex-col items-center justify-center bg-[var(--bg-main)] p-6 text-center text-[var(--text-primary)]">
+        <div className="h-14 w-14 rounded-2xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] mb-4">
+          <AlertTriangle className="w-7 h-7" />
         </div>
-        <h3 className="text-lg font-bold text-slate-100 font-mono">3D WebGL Canvas Not Available</h3>
-        <p className="text-xs text-slate-400 font-mono mt-1 max-w-md">
+        <h3 className="text-lg font-bold font-mono">3D WebGL Canvas Not Available</h3>
+        <p className="text-xs text-[var(--text-secondary)] font-mono mt-1 max-w-md">
           Your browser environment does not support WebGL 3D context. Falling back to bounded 2D Planar projection.
         </p>
         <button
           onClick={onSwitchTo2D}
-          className="mt-4 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 rounded-xl text-xs font-semibold font-mono flex items-center gap-2 cursor-pointer"
+          className="mt-4 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white border border-[var(--border-color)] rounded-xl text-xs font-semibold font-mono flex items-center gap-2 cursor-pointer"
         >
-          <MapIcon className="w-4 h-4 text-cyan-400" /> SWITCH TO BOUNDED 2D MAP
+          <MapIcon className="w-4 h-4" /> SWITCH TO BOUNDED 2D MAP
         </button>
       </div>
     );
   }
 
   return (
-    <div className="h-full w-full relative overflow-hidden bg-[#070a12]">
+    <div className="h-full w-full relative overflow-hidden bg-[var(--bg-main)]">
       {/* 3D WebGL Canvas Container */}
       <div ref={containerRef} className="h-full w-full cursor-grab active:cursor-grabbing" />
 
@@ -391,20 +391,22 @@ export default function GlobeView({
       <div className="absolute top-4 right-4 z-[1000] font-mono">
         <button
           onClick={() => setAutoRotate(!autoRotate)}
-          className={`px-3.5 py-2 glass-panel rounded-xl text-xs font-bold border transition-all flex items-center gap-2 cursor-pointer shadow-xl ${
-            autoRotate ? "text-cyan-300 border-cyan-500/60 bg-cyan-500/20" : "text-slate-400 border-slate-700 hover:text-slate-200"
+          className={`px-3.5 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-2 cursor-pointer shadow-md ${
+            autoRotate
+              ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 border-slate-700"
+              : "bg-[var(--bg-card)] text-[var(--text-primary)] border-[var(--border-color)] hover:bg-[var(--bg-card-elevated)]"
           }`}
         >
-          <RotateCw className={`w-4 h-4 ${autoRotate ? "animate-spin text-cyan-400" : ""}`} /> AUTO ROTATION: {autoRotate ? "ON" : "OFF"}
+          <RotateCw className={`w-4 h-4 ${autoRotate ? "animate-spin" : ""}`} /> AUTO ROTATION: {autoRotate ? "ON" : "OFF"}
         </button>
       </div>
 
       {/* Telemetry Status Badge */}
-      <div className="absolute bottom-6 left-6 z-[1000] glass-panel px-3.5 py-2 rounded-xl border border-slate-800 text-[11px] font-mono text-slate-300 flex items-center gap-3">
-        <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
-          <GlobeIcon className="w-4 h-4 text-cyan-400" /> 3D SPHERICAL GLOBE PROJECTION (60 FPS)
+      <div className="absolute bottom-6 left-6 z-[1000] bg-[var(--bg-card)] px-3.5 py-2 rounded-xl border border-[var(--border-color)] text-[11px] font-mono text-[var(--text-secondary)] flex items-center gap-3 shadow-md">
+        <span className="flex items-center gap-1.5 text-[var(--text-primary)] font-bold">
+          <GlobeIcon className="w-4 h-4 text-[var(--text-primary)]" /> 3D SPHERICAL GLOBE PROJECTION (60 FPS)
         </span>
-        <span className="text-slate-500">|</span>
+        <span className="text-[var(--text-muted)]">|</span>
         <span>Drag to rotate &bull; Scroll to zoom</span>
       </div>
     </div>

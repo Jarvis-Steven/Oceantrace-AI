@@ -383,50 +383,51 @@ function MapViewContent() {
       {/* ------------------------------------------------------------- */}
       {/* FLOATABLE / DRAGGABLE LAYER CONTROL PANEL */}
       {/* ------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------- */}
+      {/* FLOATABLE / DRAGGABLE LAYER CONTROL PANEL */}
+      {/* ------------------------------------------------------------- */}
       {leftPanelOpen ? (
         <div
           style={{ left: `${panelPos.x}px`, top: `${panelPos.y}px` }}
-          className={`absolute z-[1000] w-72 sm:w-80 glass-panel rounded-2xl p-4 shadow-2xl transition-shadow ${
-            isDragging ? "shadow-cyan-500/20 scale-[1.01] cursor-grabbing" : ""
+          className={`absolute z-[1000] w-72 sm:w-80 glass-panel rounded-2xl p-4 border border-[var(--border-color)] bg-[var(--bg-card)] transition-all ${
+            isDragging ? "scale-[1.01] cursor-grabbing" : ""
           }`}
         >
           {/* Drag Handle Bar Header */}
           <div
             onMouseDown={handleDragStart}
             onTouchStart={handleDragStart}
-            className="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-3 cursor-grab active:cursor-grabbing select-none"
+            className="flex items-center justify-between border-b border-[var(--border-color)] pb-2.5 mb-3 cursor-grab active:cursor-grabbing select-none"
             title="Click and drag to move panel anywhere on screen"
           >
             <div className="flex items-center gap-2">
               <span className="text-[var(--text-muted)] text-xs font-mono">⋮⋮</span>
-              <Satellite className="w-4 h-4 text-cyan-400" />
+              <Satellite className="w-4 h-4 text-[var(--text-primary)]" />
               <span className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider font-mono">
                 LAYERS & DRIFT CONTROLS
               </span>
             </div>
             <button
               onClick={() => setLeftPanelOpen(false)}
-              className="text-slate-400 hover:text-slate-200 text-xs font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800 flex items-center gap-1"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-mono px-2 py-0.5 rounded bg-[var(--bg-card-elevated)] border border-[var(--border-color)] flex items-center gap-1 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" /> CLOSE
             </button>
           </div>
-
-
 
           {/* Dynamic Slick Recenter Button */}
           <button
             onClick={focusSlickArea}
             className="w-full mb-3 py-2 px-3 rounded-lg bg-[var(--bg-card-elevated)] hover:bg-[var(--bg-card)] text-[var(--text-primary)] text-xs font-bold font-mono border border-[var(--border-color)] transition-colors cursor-pointer flex items-center justify-center gap-2"
           >
-            <Navigation className="w-4 h-4 text-cyan-500" /> RECENTER ON SLICK ANOMALY
+            <Navigation className="w-4 h-4 text-[var(--text-secondary)]" /> RECENTER ON SLICK ANOMALY
           </button>
 
           {/* Unified Pipeline Status Indicator */}
           <div className="mb-3 bg-[var(--bg-card-elevated)] p-2.5 rounded-xl border border-[var(--border-color)] flex items-center justify-between">
             <span className="text-xs text-[var(--text-secondary)] font-mono">Data Pipeline:</span>
-            <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border-color)] flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               LIVE SAR & AIS STREAM
             </span>
           </div>
@@ -441,72 +442,72 @@ function MapViewContent() {
                 type="checkbox"
                 checked={showSlick}
                 onChange={(e) => setShowSlick(e.target.checked)}
-                className="accent-cyan-500 rounded"
+                className="accent-slate-700 rounded cursor-pointer"
               />
             </label>
 
             <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
-              <span className="flex items-center gap-2 text-cyan-400">
-                <span className="h-2.5 w-2.5 rounded-full bg-cyan-400" /> Backward Origin Corridor
+              <span className="flex items-center gap-2 text-[var(--text-primary)]">
+                <span className="h-2.5 w-2.5 rounded-full bg-cyan-500" /> Backward Origin Corridor
               </span>
               <input
                 type="checkbox"
                 checked={showBackwardDrift}
                 onChange={(e) => setShowBackwardDrift(e.target.checked)}
-                className="accent-cyan-500 rounded"
+                className="accent-slate-700 rounded cursor-pointer"
               />
             </label>
 
             <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
-              <span className="flex items-center gap-2 text-amber-400">
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-400" /> Forward Drift Forecast
+              <span className="flex items-center gap-2 text-[var(--text-primary)]">
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-500" /> Forward Drift Forecast
               </span>
               <input
                 type="checkbox"
                 checked={showForwardDrift}
                 onChange={(e) => setShowForwardDrift(e.target.checked)}
-                className="accent-amber-500 rounded"
+                className="accent-slate-700 rounded cursor-pointer"
               />
             </label>
 
             <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
-              <span className="flex items-center gap-2 text-pink-400">
+              <span className="flex items-center gap-2 text-[var(--text-primary)]">
                 <span className="h-2.5 w-2.5 rounded-full bg-pink-500" /> Ship Trajectory Routes
               </span>
               <input
                 type="checkbox"
                 checked={showTrajectories}
                 onChange={(e) => setShowTrajectories(e.target.checked)}
-                className="accent-pink-500 rounded"
+                className="accent-slate-700 rounded cursor-pointer"
               />
             </label>
 
             <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
-              <span className="flex items-center gap-2 text-[var(--text-secondary)]">
+              <span className="flex items-center gap-2 text-[var(--text-primary)]">
                 <span className="h-2.5 w-2.5 rounded-full bg-blue-500" /> Background AIS Traffic
               </span>
               <input
                 type="checkbox"
                 checked={showNormalVessels}
                 onChange={(e) => setShowNormalVessels(e.target.checked)}
-                className="accent-blue-500 rounded"
+                className="accent-slate-700 rounded cursor-pointer"
               />
             </label>
           </div>
 
           {/* Tactical Telemetry Summary */}
-          <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+          <div className="mt-4 pt-3 border-t border-[var(--border-color)] text-[11px] font-mono text-[var(--text-secondary)] space-y-1">
             <div className="flex justify-between">
               <span>Evaluated Candidates:</span>
-              <span className="text-cyan-400 font-bold">{candidateVessels.length} Vessels</span>
+              <span className="text-[var(--text-primary)] font-bold">{candidateVessels.length} Vessels</span>
             </div>
             <div className="flex justify-between">
               <span>Detection Confidence:</span>
-              <span className="text-cyan-400 font-bold">{attribution?.confidence || 84.5}%</span>
+              <span className="text-[var(--text-primary)] font-bold">{attribution?.confidence || 84.5}%</span>
             </div>
             <div className="flex justify-between">
               <span>Slick Centroid:</span>
-              <span className="text-slate-200">09.500°N, 070.000°E</span>
+              <span className="text-[var(--text-primary)] font-medium">09.500°N, 070.000°E</span>
             </div>
           </div>
         </div>
@@ -514,21 +515,21 @@ function MapViewContent() {
         /* FLOATABLE BUTTON WHEN COLLAPSED */
         <div
           style={{ left: `${panelPos.x}px`, top: `${panelPos.y}px` }}
-          className="absolute z-[1000] flex items-center shadow-2xl"
+          className="absolute z-[1000] flex items-center shadow-md"
         >
           <div
             onMouseDown={handleDragStart}
             onTouchStart={handleDragStart}
-            className="px-2 py-2.5 glass-panel rounded-l-xl border-r-0 text-slate-400 hover:text-slate-200 cursor-grab active:cursor-grabbing text-xs font-mono"
+            className="px-2 py-2.5 bg-[var(--bg-card)] border border-[var(--border-color)] border-r-0 rounded-l-xl text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-grab active:cursor-grabbing text-xs font-mono"
             title="Drag button anywhere"
           >
             ⋮⋮
           </div>
           <button
             onClick={() => setLeftPanelOpen(true)}
-            className="px-3.5 py-2.5 glass-panel rounded-r-xl text-xs font-mono font-bold text-cyan-400 hover:text-cyan-300 border-l-0 border border-cyan-500/30 flex items-center gap-2 shadow-xl"
+            className="px-3.5 py-2.5 bg-[var(--bg-card)] hover:bg-[var(--bg-card-elevated)] rounded-r-xl text-xs font-mono font-bold text-[var(--text-primary)] border border-[var(--border-color)] border-l-0 flex items-center gap-2 shadow-md cursor-pointer"
           >
-            <Layers className="w-4 h-4 text-cyan-400" /> LAYERS & CONTROLS
+            <Layers className="w-4 h-4 text-[var(--text-primary)]" /> LAYERS & CONTROLS
           </button>
         </div>
       )}
@@ -729,11 +730,11 @@ function MapViewContent() {
                     >
                       <Popup minWidth={220}>
                         <div className="text-xs font-sans p-1 space-y-1">
-                          <strong className="text-cyan-400 font-bold flex items-center gap-1">
-                            <MapPin className="w-4 h-4 text-cyan-400" /> DESTINATION PORT
+                          <strong className="text-[var(--text-primary)] font-bold flex items-center gap-1">
+                            <MapPin className="w-4 h-4 text-[var(--text-secondary)]" /> DESTINATION PORT
                           </strong>
-                          <div className="font-bold text-slate-100">{activeVessel.destination_port}</div>
-                          <div className="text-[10px] text-slate-400 font-mono">Vessel: {activeVessel.shipName}</div>
+                          <div className="font-bold text-[var(--text-primary)]">{activeVessel.destination_port}</div>
+                          <div className="text-[10px] text-[var(--text-secondary)] font-mono">Vessel: {activeVessel.shipName}</div>
                         </div>
                       </Popup>
                     </CircleMarker>
@@ -763,30 +764,30 @@ function MapViewContent() {
                     >
                       <Popup minWidth={240}>
                         <div className="text-xs font-sans space-y-1.5 p-1">
-                          <div className="flex items-center justify-between border-b border-slate-700/60 pb-1">
-                            <strong className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
+                          <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-1">
+                            <strong className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
                               {isTop ? (
                                 <>
-                                  <AlertTriangle className="w-4 h-4 text-rose-400" /> RANK #1 SOURCE CANDIDATE
+                                  <AlertTriangle className="w-4 h-4 text-rose-500" /> RANK #1 SOURCE CANDIDATE
                                 </>
                               ) : (
                                 `Candidate (Rank #${v.rank})`
                               )}
                             </strong>
-                            <span className="font-mono text-xs font-extrabold px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                            <span className="font-mono text-xs font-extrabold px-1.5 py-0.5 rounded bg-[var(--bg-card-elevated)] text-[var(--text-primary)] border border-[var(--border-color)]">
                               {v.attribution_score}/100
                             </span>
                           </div>
-                          <div className="font-bold text-slate-200">{v.shipName}</div>
-                          <div className="text-slate-400 text-[11px]">
+                          <div className="font-bold text-[var(--text-primary)]">{v.shipName}</div>
+                          <div className="text-[var(--text-secondary)] text-[11px]">
                             MMSI: {v.mmsi} &bull; {v.vesselType} &bull; Course: {v.course}°
                           </div>
-                          <div className="text-cyan-400 text-[11px] font-mono">
+                          <div className="text-[var(--text-secondary)] text-[11px] font-mono">
                             Route: {v.departure_port || "Persian Gulf"} &rarr; {v.destination_port || "Singapore"}
                           </div>
                           {v.isClustered && (
-                            <div className="text-[10px] text-cyan-400 font-mono italic flex items-center gap-1">
-                              <Zap className="w-3 h-3 text-cyan-400" /> Deconflicted radial position (Cluster offset applied)
+                            <div className="text-[10px] text-[var(--text-secondary)] font-mono italic flex items-center gap-1">
+                              <Zap className="w-3 h-3 text-[var(--text-secondary)]" /> Deconflicted radial position (Cluster offset applied)
                             </div>
                           )}
                           <button
@@ -794,7 +795,7 @@ function MapViewContent() {
                               e.stopPropagation();
                               setSelectedVessel({ ...v });
                             }}
-                            className="w-full mt-2 py-1.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-[11px] font-bold font-mono border border-cyan-500/40 transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1"
+                            className="w-full mt-2 py-1.5 rounded bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-[11px] font-bold font-mono border border-[var(--border-color)] transition-all cursor-pointer flex items-center justify-center gap-1"
                           >
                             OPEN VESSEL DOSSIER &rarr;
                           </button>
@@ -835,8 +836,8 @@ function MapViewContent() {
                     >
                       <Popup minWidth={220}>
                         <div className="text-xs font-sans p-1 space-y-1.5">
-                          <strong className="font-bold text-slate-100">{v.shipName}</strong>
-                          <div className="text-slate-400 text-[11px]">
+                          <strong className="font-bold text-[var(--text-primary)]">{v.shipName}</strong>
+                          <div className="text-[var(--text-secondary)] text-[11px]">
                             MMSI: {v.mmsi} &bull; Type: {v.vesselType}
                           </div>
                           <button
@@ -853,7 +854,7 @@ function MapViewContent() {
                                 why_ranked: ["Background AIS traffic passing outside primary drift origin corridor"],
                               });
                             }}
-                            className="w-full mt-2 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[11px] font-bold font-mono border border-slate-700 cursor-pointer flex items-center justify-center gap-1"
+                            className="w-full mt-2 py-1.5 rounded bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-[11px] font-bold font-mono border border-[var(--border-color)] cursor-pointer flex items-center justify-center gap-1"
                           >
                             OPEN VESSEL DOSSIER &rarr;
                           </button>
@@ -873,16 +874,16 @@ function MapViewContent() {
           {/* Header */}
           <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-card-elevated)] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 font-bold">
+              <span className="text-xs font-mono uppercase tracking-widest text-[var(--text-primary)] font-extrabold">
                 VESSEL DOSSIER
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 border border-rose-500/30 font-bold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border-color)] font-bold">
                 SCORE: {selectedVessel.attribution_score}/100
               </span>
             </div>
             <button
               onClick={() => setSelectedVessel(null)}
-              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-mono p-1 rounded hover:bg-[var(--bg-card)] flex items-center gap-1"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-mono p-1 rounded hover:bg-[var(--bg-card)] flex items-center gap-1 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" /> CLOSE
             </button>
@@ -897,13 +898,13 @@ function MapViewContent() {
                 <p className="text-xs text-[var(--text-secondary)] font-mono mt-0.5">
                   MMSI: {selectedVessel.mmsi} &bull; Flag: {selectedVessel.flag || "IN"}
                 </p>
-                <p className="text-xs text-cyan-400 font-mono mt-0.5">
+                <p className="text-xs text-[var(--text-secondary)] font-mono mt-0.5">
                   Type: {selectedVessel.vesselType} &bull; Course: {selectedVessel.course || 135}°
                 </p>
               </div>
               <div className="text-right">
                 <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Rank</span>
-                <div className="text-2xl font-extrabold text-rose-400 font-mono">
+                <div className="text-2xl font-extrabold text-rose-600 dark:text-rose-400 font-mono">
                   #{selectedVessel.rank || 1}
                 </div>
               </div>
@@ -912,21 +913,21 @@ function MapViewContent() {
             {/* Commercial Voyage Route Telemetry Card */}
             <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-3 text-xs font-mono">
               <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
-                <span className="text-cyan-400 font-bold uppercase text-[10px] tracking-wider flex items-center gap-1.5">
-                  <Navigation className="w-3.5 h-3.5 text-cyan-400" /> COMMERCIAL VOYAGE ROUTE
+                <span className="text-[var(--text-primary)] font-bold uppercase text-[10px] tracking-wider flex items-center gap-1.5">
+                  <Navigation className="w-3.5 h-3.5 text-[var(--text-secondary)]" /> COMMERCIAL VOYAGE ROUTE
                 </span>
-                <span className="text-emerald-400 text-[10px] font-bold">UNDERWAY VIA ENGINE</span>
+                <span className="text-emerald-700 dark:text-emerald-400 text-[10px] font-bold">UNDERWAY VIA ENGINE</span>
               </div>
               <div className="space-y-2">
                 <div className="flex items-start gap-2">
-                  <Anchor className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <Anchor className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <div>
                     <span className="text-[10px] text-[var(--text-muted)] uppercase">Departure Port</span>
                     <p className="font-bold text-[var(--text-primary)]">{selectedVessel.departure_port || "Fujairah Crude Terminal, UAE (AEFUJ)"}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[var(--text-secondary)] shrink-0 mt-0.5" />
                   <div>
                     <span className="text-[10px] text-[var(--text-muted)] uppercase">Destination Port</span>
                     <p className="font-bold text-[var(--text-primary)]">{selectedVessel.destination_port || "Port of Singapore, Singapore (SGSIN)"}</p>
@@ -938,7 +939,7 @@ function MapViewContent() {
             <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-2">
               <div className="flex justify-between items-center text-xs font-mono">
                 <span className="text-[var(--text-primary)] font-semibold">AIS SPEED ANOMALY HISTORY</span>
-                <span className="text-rose-400 font-bold text-[10px]">ANOMALY WINDOW DETECTED</span>
+                <span className="text-rose-600 dark:text-rose-400 font-bold text-[10px]">ANOMALY WINDOW DETECTED</span>
               </div>
               <div className="h-20 w-full bg-[var(--bg-card)] rounded-lg border border-[var(--border-color)] p-2 flex flex-col justify-between relative overflow-hidden">
                 <div className="flex justify-between text-[9px] font-mono text-[var(--text-muted)]">
@@ -949,14 +950,14 @@ function MapViewContent() {
                   <path
                     d="M 0,10 L 60,12 L 110,11 L 130,32 L 180,33 L 200,12 L 300,10"
                     fill="none"
-                    stroke="#06b6d4"
+                    stroke="#0284c7"
                     strokeWidth="2"
                   />
-                  <rect x="120" y="2" width="70" height="36" fill="rgba(239, 68, 68, 0.15)" stroke="rgba(239, 68, 68, 0.4)" strokeDasharray="2 2" />
+                  <rect x="120" y="2" width="70" height="36" fill="rgba(239, 68, 68, 0.12)" stroke="rgba(239, 68, 68, 0.4)" strokeDasharray="2 2" />
                 </svg>
                 <div className="flex justify-between text-[9px] font-mono text-[var(--text-muted)]">
                   <span>22:00 UTC</span>
-                  <span className="text-rose-400">DISCHARGE WINDOW</span>
+                  <span className="text-rose-600 dark:text-rose-400 font-bold">DISCHARGE WINDOW</span>
                   <span>04:00 UTC</span>
                 </div>
               </div>
@@ -969,7 +970,7 @@ function MapViewContent() {
               </div>
               <div className="bg-[var(--bg-card-elevated)] p-3 rounded-lg border border-[var(--border-color)]">
                 <span className="text-[10px] text-[var(--text-muted)] uppercase">Corridor Offset</span>
-                <p className="text-sm font-bold text-cyan-400 mt-0.5">{selectedVessel.dist_to_drift_corridor_km} km</p>
+                <p className="text-sm font-bold text-[var(--text-primary)] mt-0.5">{selectedVessel.dist_to_drift_corridor_km} km</p>
               </div>
             </div>
 
@@ -982,30 +983,30 @@ function MapViewContent() {
                 <div className="space-y-1">
                   <div className="flex justify-between text-[var(--text-muted)] text-[11px]">
                     <span>Backward Drift Match</span>
-                    <span className="text-cyan-400 font-bold">{selectedVessel.score_breakdown.drift_corridor}%</span>
+                    <span className="text-[var(--text-primary)] font-bold">{selectedVessel.score_breakdown.drift_corridor}%</span>
                   </div>
                   <div className="h-1.5 w-full bg-[var(--bg-card)] rounded-full overflow-hidden">
-                    <div className="h-full bg-cyan-400" style={{ width: `${selectedVessel.score_breakdown.drift_corridor}%` }} />
+                    <div className="h-full bg-slate-700 dark:bg-slate-300" style={{ width: `${selectedVessel.score_breakdown.drift_corridor}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex justify-between text-[var(--text-muted)] text-[11px]">
                     <span>Spatial Proximity</span>
-                    <span className="text-cyan-400 font-bold">{selectedVessel.score_breakdown.spatial}%</span>
+                    <span className="text-[var(--text-primary)] font-bold">{selectedVessel.score_breakdown.spatial}%</span>
                   </div>
                   <div className="h-1.5 w-full bg-[var(--bg-card)] rounded-full overflow-hidden">
-                    <div className="h-full bg-cyan-400" style={{ width: `${selectedVessel.score_breakdown.spatial}%` }} />
+                    <div className="h-full bg-slate-700 dark:bg-slate-300" style={{ width: `${selectedVessel.score_breakdown.spatial}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex justify-between text-[var(--text-muted)] text-[11px]">
                     <span>Behaviour Anomaly</span>
-                    <span className="text-cyan-400 font-bold">{selectedVessel.score_breakdown.behaviour}%</span>
+                    <span className="text-[var(--text-primary)] font-bold">{selectedVessel.score_breakdown.behaviour}%</span>
                   </div>
                   <div className="h-1.5 w-full bg-[var(--bg-card)] rounded-full overflow-hidden">
-                    <div className="h-full bg-cyan-400" style={{ width: `${selectedVessel.score_breakdown.behaviour}%` }} />
+                    <div className="h-full bg-slate-700 dark:bg-slate-300" style={{ width: `${selectedVessel.score_breakdown.behaviour}%` }} />
                   </div>
                 </div>
               </div>
@@ -1019,7 +1020,7 @@ function MapViewContent() {
                 <div className="space-y-1.5 bg-[var(--bg-card-elevated)] p-3.5 rounded-xl border border-[var(--border-color)] text-xs">
                   {selectedVessel.why_ranked.map((bullet, bIdx) => (
                     <div key={bIdx} className="flex items-start gap-2 text-[var(--text-primary)]">
-                      <Check className="w-3.5 h-3.5 text-emerald-400 font-bold shrink-0 mt-0.5" />
+                      <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 font-bold shrink-0 mt-0.5" />
                       <span>{bullet}</span>
                     </div>
                   ))}
@@ -1032,15 +1033,15 @@ function MapViewContent() {
           <div className="p-4 border-t border-[var(--border-color)] bg-[var(--bg-card-elevated)] flex items-center justify-between gap-2 shrink-0">
             <button
               onClick={() => handleDispatchAlert(selectedVessel)}
-              className="flex-1 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-600 dark:text-emerald-300 border border-emerald-500/40 text-xs font-bold font-mono transition-all flex items-center justify-center gap-1.5 shadow-lg active:scale-95 cursor-pointer"
+              className="flex-1 py-2.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold font-mono transition-colors flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
             >
-              <ShieldAlert className="w-4 h-4 text-emerald-400" /> Dispatch Alert
+              <ShieldAlert className="w-4 h-4 text-white" /> Dispatch Alert
             </button>
             <button
               onClick={() => handleExportVesselDossier(selectedVessel)}
-              className="flex-1 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-600 dark:text-cyan-300 border border-cyan-500/40 text-xs font-bold font-mono transition-all flex items-center justify-center gap-1.5 shadow-lg active:scale-95 cursor-pointer"
+              className="flex-1 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-xs font-bold font-mono transition-colors flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
             >
-              <FileText className="w-4 h-4 text-cyan-400" /> Export Dossier
+              <FileText className="w-4 h-4" /> Export Dossier
             </button>
           </div>
         </div>
@@ -1048,46 +1049,46 @@ function MapViewContent() {
 
       {/* DISPATCH ALERT CONFIRMATION MODAL DIALOG */}
       {dispatchAlertModal && (
-        <div className="fixed inset-0 z-[3000] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-lg glass-panel-accent rounded-2xl p-6 space-y-5 shadow-2xl relative border border-emerald-500/40">
-            <div className="flex items-start justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-[3000] bg-black/60 flex items-center justify-center p-4">
+          <div className="w-full max-w-lg bg-[var(--bg-card)] rounded-2xl p-6 space-y-5 shadow-xl relative border border-[var(--border-color)] text-[var(--text-primary)]">
+            <div className="flex items-start justify-between border-b border-[var(--border-color)] pb-3">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl font-bold">
-                  <Radio className="w-5 h-5 text-emerald-400" />
+                <div className="h-10 w-10 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] text-xl font-bold">
+                  <Radio className="w-5 h-5 text-[var(--text-primary)]" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold tracking-wider">
+                  <span className="text-[10px] font-mono uppercase text-[var(--text-secondary)] font-bold tracking-wider">
                     TACTICAL MARITIME INTERCEPT ALERT
                   </span>
-                  <h3 className="text-base font-extrabold text-slate-100 font-mono">
+                  <h3 className="text-base font-extrabold text-[var(--text-primary)] font-mono">
                     ALERT TRANSMITTED TO COAST GUARD
                   </h3>
                 </div>
               </div>
               <button
                 onClick={() => setDispatchAlertModal(null)}
-                className="text-slate-400 hover:text-slate-100 text-xs font-mono p-1 rounded"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-mono p-1 rounded hover:bg-[var(--bg-card-elevated)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono space-y-1">
+            <div className="p-3.5 rounded-xl bg-[var(--bg-card-elevated)] border border-[var(--border-color)] text-xs font-mono space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-emerald-400 font-bold flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  STATUS: SUCCESS
+                <span className="text-[var(--text-primary)] font-bold flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  STATUS: SUCCESS TRANSMITTED
                 </span>
-                <span className="text-slate-400">{dispatchAlertModal.dispatchId}</span>
+                <span className="text-[var(--text-secondary)]">{dispatchAlertModal.dispatchId}</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[11px] text-[var(--text-secondary)]">
                 {dispatchAlertModal.status}
               </p>
             </div>
 
-            <div className="bg-[#070a12] p-4 rounded-xl border border-slate-800 space-y-2 text-xs font-mono">
-              <span className="text-slate-400 uppercase text-[10px] font-bold">Transmitted Payload Data</span>
-              <div className="grid grid-cols-2 gap-2 text-slate-300">
+            <div className="bg-[var(--bg-card-elevated)] p-4 rounded-xl border border-[var(--border-color)] space-y-2 text-xs font-mono">
+              <span className="text-[var(--text-secondary)] uppercase text-[10px] font-bold">Transmitted Payload Data</span>
+              <div className="grid grid-cols-2 gap-2 text-[var(--text-primary)]">
                 <div><strong>Target Vessel:</strong> {dispatchAlertModal.vesselName}</div>
                 <div><strong>MMSI:</strong> {dispatchAlertModal.mmsi}</div>
                 <div><strong>Flag State:</strong> {dispatchAlertModal.flag}</div>
@@ -1095,7 +1096,7 @@ function MapViewContent() {
                 <div><strong>Dist to Slick:</strong> {dispatchAlertModal.distanceKm} km</div>
                 <div><strong>Corridor Offset:</strong> {dispatchAlertModal.corridorOffsetKm} km</div>
               </div>
-              <div className="pt-2 text-[10px] text-slate-500 border-t border-slate-800/80">
+              <div className="pt-2 text-[10px] text-[var(--text-muted)] border-t border-[var(--border-color)]">
                 Recipient: Indian Coast Guard Maritime Operational Centre (MOC Mumbai / Kochi) &bull; Timestamp: {dispatchAlertModal.timestamp}
               </div>
             </div>
@@ -1103,7 +1104,7 @@ function MapViewContent() {
             <div className="flex justify-end gap-3 font-mono">
               <button
                 onClick={() => setDispatchAlertModal(null)}
-                className="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-xs font-bold transition-all cursor-pointer"
               >
                 Acknowledge Alert Transmission
               </button>
