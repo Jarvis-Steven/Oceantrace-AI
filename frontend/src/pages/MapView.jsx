@@ -423,15 +423,6 @@ function MapViewContent() {
             <Navigation className="w-4 h-4 text-[var(--text-secondary)]" /> RECENTER ON SLICK ANOMALY
           </button>
 
-          {/* Unified Pipeline Status Indicator */}
-          <div className="mb-3 bg-[var(--bg-card-elevated)] p-2.5 rounded-xl border border-[var(--border-color)] flex items-center justify-between">
-            <span className="text-xs text-[var(--text-secondary)] font-mono">Data Pipeline:</span>
-            <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border-color)] flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              LIVE SAR & AIS STREAM
-            </span>
-          </div>
-
           {/* Layer Toggles */}
           <div className="space-y-2 text-xs font-mono">
             <label className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg-card-elevated)] border border-[var(--border-color)] cursor-pointer hover:border-[var(--text-muted)] transition-colors">
